@@ -1,0 +1,60 @@
+@import "../../../node_modules/gerillass/scss/gerillass";
+
+.rss-tile {
+	background-color: var(--ColorContainer);
+	border-radius: var(--BorderRadius);
+	padding: 1rem;
+	border: 1px solid var(--ColorOutline);
+	font-size: 14px;
+
+	img {
+		max-width: 100%;
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		gap: 1rem;
+	}
+
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 1rem;
+	cursor: pointer;
+	user-select: none;
+
+	@include breakpoint(min, 1224px) {
+		flex-direction: row;
+		gap: 4rem;
+	}
+
+	&__date-block {
+		display: flex;
+	}
+
+	&:hover {
+		background-color: var(--ColorContainerLight);
+	}
+
+	&__news {
+		border-radius: var(--BorderRadius);
+		overflow: clip;
+		img {
+			max-height: 4rem;
+		}
+
+		@include breakpoint(min, 1224px) {
+			max-height: 10rem;
+		}
+	}
+
+	&__large {
+		border-radius: var(--BorderRadius);
+		overflow: clip;
+
+		@include breakpoint(min, 1244px) {
+			max-height: 12rem;
+		}
+	}
+}

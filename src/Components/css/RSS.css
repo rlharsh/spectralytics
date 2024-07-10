@@ -1,0 +1,10 @@
+.rss-container {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+  max-width: 100%;
+}

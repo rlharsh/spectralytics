@@ -1,0 +1,19 @@
+.menu-button {
+	padding: 0.8rem 1rem;
+	border-radius: var(--BorderRadius);
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: var(--FontSizeNormal);
+
+	svg {
+		width: 1.2rem;
+		height: 1.2rem;
+	}
+
+	&:hover {
+		background-color: var(--ColorGrey);
+	}
+}

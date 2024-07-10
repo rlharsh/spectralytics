@@ -1,0 +1,67 @@
+@import "../../../node_modules/gerillass/scss/gerillass";
+
+.header {
+	padding: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	background-color: var(--ColorContainer);
+	user-select: none;
+
+	@include breakpoint(min, 1224px) {
+		border-radius: var(--BorderRadius);
+		width: calc(100% - 2rem);
+		margin: 0 auto;
+		margin-top: 1rem;
+		border: 1px solid var(--ColorOutline);
+
+		position: fixed;
+		top: 0rem;
+		left: 1rem;
+		width: calc(100% - 2rem);
+	}
+
+	h1 {
+		font-weight: 900;
+		font-size: 24px;
+	}
+
+	&__branding {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+
+		svg {
+			color: var(--ColorAccent);
+			width: 1.8rem;
+			height: 1.8rem;
+		}
+	}
+
+	Button {
+		z-index: 100;
+	}
+
+	&__navigation {
+		position: absolute;
+		right: 1rem;
+		top: 5rem;
+		padding: 1rem;
+		border-radius: var(--BorderRadius);
+
+		display: flex;
+		flex-direction: column;
+		background-color: var(--ColorContainer);
+
+		@include breakpoint(min, 1224px) {
+			position: fixed;
+			top: 6rem;
+			left: 1rem;
+			max-width: 16rem;
+			border-style: none;
+			box-shadow: none;
+			border: 1px solid var(--ColorOutline);
+		}
+	}
+}
