@@ -6,6 +6,7 @@ import Console from "../Components/Console";
 import { Outlet } from "react-router-dom";
 import ApplicationProvider from "../Providers/ApplicationProvider";
 import GameDataProvider from "../Providers/GameDataProvider";
+import SpectraController from "../Components/SpectraController";
 
 const ApplicationView = () => {
 	return (
@@ -15,6 +16,7 @@ const ApplicationView = () => {
 					<div className="app-view">
 						<Header />
 						<Outlet />
+						<SpectraController />
 					</div>
 				</GameDataProvider>
 			</AuthProvider>

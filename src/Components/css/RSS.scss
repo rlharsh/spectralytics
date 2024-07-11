@@ -2,12 +2,14 @@
 
 .rss-container {
 	margin-top: 2rem;
-	display: flex;
-	flex-direction: column;
-	gap: 1.4rem;
-	width: fit-content;
-	margin: 0 auto;
 	max-width: 100%;
-	@include breakpoint(min, 1224px) {
-	}
+	min-width: 100%;
+
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fit,
+		minmax(320px, 1fr)
+	); /* Adjust width as needed */
+	grid-auto-flow: dense;
+	gap: 1rem;
 }

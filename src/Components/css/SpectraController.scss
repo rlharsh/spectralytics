@@ -1,0 +1,31 @@
+.spectra {
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+
+	background-color: var(--ColorAccent);
+	height: 3rem;
+	width: 3rem;
+	border-radius: 50%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	svg {
+		color: var(--Background);
+		height: 1.6rem;
+		width: 1.6rem;
+	}
+
+	cursor: pointer;
+	border: 1px solid var(--ColorOutline);
+
+	&:hover {
+		background-color: var(--ColorContainer);
+
+		svg {
+			color: var(--ColorAccent);
+		}
+	}
+}

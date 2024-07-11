@@ -7,10 +7,6 @@
 	border: 1px solid var(--ColorOutline);
 	font-size: 14px;
 
-	img {
-		max-width: 100%;
-	}
-
 	&__content {
 		display: flex;
 		flex-direction: column;
@@ -25,8 +21,8 @@
 	user-select: none;
 
 	@include breakpoint(min, 1224px) {
-		flex-direction: row;
-		gap: 4rem;
+		//flex-direction: row;
+		//gap: 4rem;
 	}
 
 	&__date-block {
@@ -41,11 +37,11 @@
 		border-radius: var(--BorderRadius);
 		overflow: clip;
 		img {
-			max-height: 4rem;
+			width: 100%;
 		}
 
 		@include breakpoint(min, 1224px) {
-			max-height: 10rem;
+			width: 100%;
 		}
 	}
 
@@ -54,7 +50,8 @@
 		overflow: clip;
 
 		@include breakpoint(min, 1244px) {
-			max-height: 12rem;
+			width: 100%;
 		}
 	}
+	height: fit-content;
 }
