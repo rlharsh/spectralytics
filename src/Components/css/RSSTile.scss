@@ -36,6 +36,8 @@
 	&__news {
 		border-radius: var(--BorderRadius);
 		overflow: clip;
+		width: 100%;
+
 		img {
 			width: 100%;
 		}
@@ -48,6 +50,7 @@
 	&__large {
 		border-radius: var(--BorderRadius);
 		overflow: clip;
+		width: 100%;
 
 		@include breakpoint(min, 1244px) {
 			width: 100%;

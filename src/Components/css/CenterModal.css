@@ -1,0 +1,30 @@
+.center-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-width: 100vw;
+  background-color: rgba(0, 0, 0, 0.6);
+  min-height: 100vh;
+  z-index: 200;
+  padding: 1rem;
+}
+.center-modal__content {
+  background-color: var(--Background);
+  border: 1px solid var(--ColorOutline);
+  border-radius: var(--BorderRadius);
+  position: absolute;
+  width: calc(100% - 2rem);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 1rem;
+}
+@media (min-width: 1224px) {
+  .center-modal__content {
+    max-width: 28rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.center-modal__title {
+  margin-bottom: 1rem;
+}

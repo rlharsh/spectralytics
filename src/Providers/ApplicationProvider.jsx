@@ -13,6 +13,8 @@ const ApplicationProvider = ({ children }) => {
 	const [timerRunning, setTimerRunning] = useState(false);
 	const [time, setTime] = useState(0);
 	const [consoleLogs, setConsoleLogs] = useState([]);
+	const [socketShowing, setSocketShowing] = useState(false);
+	const [userId, setUserId] = useState("");
 
 	const navigate = useNavigate();
 
@@ -49,6 +51,10 @@ const ApplicationProvider = ({ children }) => {
 		endContract,
 		consoleLogs,
 		setConsoleLogs,
+		socketShowing,
+		setSocketShowing,
+		userId,
+		setUserId,
 	};
 
 	return (

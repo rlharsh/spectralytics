@@ -29,6 +29,7 @@
 .rss-tile__news {
   border-radius: var(--BorderRadius);
   overflow: clip;
+  width: 100%;
 }
 .rss-tile__news img {
   width: 100%;
@@ -41,6 +42,7 @@
 .rss-tile__large {
   border-radius: var(--BorderRadius);
   overflow: clip;
+  width: 100%;
 }
 @media (min-width: 1244px) {
   .rss-tile__large {

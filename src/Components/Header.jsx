@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./css/Header.css";
 import { useMediaQuery } from "react-responsive";
 import { TbDeviceAnalytics } from "react-icons/tb";
@@ -20,9 +20,12 @@ import {
 } from "react-icons/io5";
 import { useAuth } from "../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineCloudServer } from "react-icons/ai";
+import { ApplicationContext } from "../Providers/ApplicationProvider";
 
 const Header = () => {
 	const { login, user, logout } = useAuth();
+	const { setSocketShowing, socketShowing } = useContext(ApplicationContext);
 
 	const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 	const [menuOpen, setMenuOpen] = useState(!isTabletOrMobile);
@@ -44,34 +47,40 @@ const Header = () => {
 			icon: <IoHomeOutline />,
 		},
 		{
-			name: "Dashboard",
+			name: "User Dashboard",
 			link: "dashboard",
 			icon: <IoAnalyticsOutline />,
 		},
 		{
-			name: "Search",
+			name: "Search Journal",
 			link: "search",
 			icon: <IoSearch />,
 		},
 		{
-			name: "Journal",
+			name: "User Journal",
 			link: "journal",
 			icon: <IoBookOutline />,
 		},
 		{
-			name: "Ghosts",
+			name: "Ghost Information",
 			link: "ghosts",
 			icon: <IoSkullOutline />,
 		},
 		{
-			name: "Equipment",
+			name: "Equipment Information",
 			link: "equipment",
 			icon: <IoFlashlightOutline />,
 		},
 		{
-			name: "Maps",
+			name: "Map Information",
 			link: "maps",
 			icon: <IoMapOutline />,
+		},
+		{
+			name: "Network Connection",
+			link: "network",
+			action: () => setSocketShowing((prevValue) => !prevValue),
+			icon: <AiOutlineCloudServer />,
 		},
 		{
 			name: "Console",
@@ -84,6 +93,14 @@ const Header = () => {
 			icon: <IoInformationCircleOutline />,
 		},
 	];
+
+	const handleItemClick = (item) => {
+		if (item?.action) {
+			item.action();
+		} else if (item?.link) {
+			navigate(item.link);
+		}
+	};
 
 	return (
 		<header className="header">
@@ -105,7 +122,11 @@ const Header = () => {
 				<section className="header__sidebar">
 					<nav className="header__navigation">
 						{navigationMenu.map((item) => (
-							<MenuButton item={item} key={item.name} />
+							<MenuButton
+								item={item}
+								key={item.name}
+								click={() => handleItemClick(item)}
+							/>
 						))}
 						<button
 							className="highlight margin-top"

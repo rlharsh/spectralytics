@@ -1,7 +1,7 @@
 .spectra {
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 4rem;
+  right: 4rem;
   background-color: var(--ColorAccent);
   height: 3rem;
   width: 3rem;

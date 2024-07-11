@@ -38,6 +38,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  max-width: 100vw;
 }
 @media (min-width: 1224px) {
   .app-view {
@@ -47,6 +48,7 @@ a {
 
 .page-container {
   padding: 1rem;
+  max-width: 100%;
 }
 @media (min-width: 1224px) {
   .page-container {
@@ -106,4 +108,19 @@ h1 {
   margin: 0 auto;
   width: -moz-fit-content;
   width: fit-content;
+}
+
+input[type=text] {
+  background-color: var(--Background);
+  border: 1px solid var(--ColorOutline);
+  padding: 0.6rem 1rem;
+  border-radius: var(--BorderRadius);
+  color: var(--ColorAccent);
+  font-family: "Inter var", sans-serif;
+  font-weight: var(--FontWeightNormal);
+  font-size: var(--FontSizeNormal);
+}
+
+.center-text {
+  text-align: center;
 }
