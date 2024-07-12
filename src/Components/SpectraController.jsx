@@ -1,13 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import "./css/SpectraController.css";
 import { AiOutlineRobot } from "react-icons/ai";
-
 import { getAudioFromText } from "../Helpers/textToSpeech";
+import { getIntent } from "../Helpers/nlpProcessor";
+import { ApplicationContext } from "../Providers/ApplicationProvider";
 
 const SpectraController = () => {
 	const [isSupported, setIsSupported] = useState(true);
 	const [transcript, setTranscript] = useState(null);
 	const [listening, setListening] = useState(false);
+
+	const { awaitingAudio, setAwaitingAudio } = useContext(ApplicationContext);
 
 	const recognitionRef = useRef(null);
 	const wakeWordHeardRef = useRef(false);
@@ -40,15 +43,10 @@ const SpectraController = () => {
 	}, []);
 
 	const processTranscript = async (t) => {
-		/*
-        const response = await getAudioFromText(t);
-		const downloadUrl = response.data.downloadUrl;
-
-		if (audioRef.current) {
-			audioRef.current.src = downloadUrl;
-			audioRef.current.play();
+		if (t.toLowerCase().includes("spectra")) {
+			const response = await getIntent(t);
+			setAwaitingAudio(true);
 		}
-        */
 	};
 
 	useEffect(() => {

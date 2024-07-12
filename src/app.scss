@@ -59,6 +59,12 @@ a {
 	}
 }
 
+.double-panel {
+	display: flex;
+	gap: 2rem;
+	flex-direction: column-reverse;
+}
+
 .large-header {
 	font-size: 48px;
 	font-weight: 900;
@@ -127,4 +133,17 @@ input[type="text"] {
 
 .center-text {
 	text-align: center;
+}
+
+.small-accent {
+	font-size: 12px;
+	color: var(--ColorAccent);
+}
+
+.right-text {
+	text-align: right;
+}
+
+.margin-top-1rem {
+	margin-top: 1rem;
 }

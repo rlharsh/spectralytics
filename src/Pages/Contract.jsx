@@ -6,12 +6,11 @@ const Contract = () => {
 	const { evidenceData, difficultyData, ghostData, mapData, objectiveData } =
 		useContext(GameDataContext);
 
-	console.log(ghostData);
 	return (
 		<main className="page-container">
 			<div className="double-panel">
-				<section className="double-panel__main"></section>
-				<aside className="double-panel__sidebar"></aside>
+				<section className="double-panel__main">Left</section>
+				<aside className="double-panel__sidebar">Right</aside>
 			</div>
 		</main>
 	);

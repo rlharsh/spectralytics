@@ -15,6 +15,8 @@ const ApplicationProvider = ({ children }) => {
 	const [consoleLogs, setConsoleLogs] = useState([]);
 	const [socketShowing, setSocketShowing] = useState(false);
 	const [userId, setUserId] = useState("");
+	const [connectedUsers, setConnectedUsers] = useState(0);
+	const [awaitingAudio, setAwaitingAudio] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -55,6 +57,8 @@ const ApplicationProvider = ({ children }) => {
 		setSocketShowing,
 		userId,
 		setUserId,
+		connectedUsers,
+		setConnectedUsers,
 	};
 
 	return (

@@ -25,7 +25,7 @@ import { ApplicationContext } from "../Providers/ApplicationProvider";
 
 const Header = () => {
 	const { login, user, logout } = useAuth();
-	const { setSocketShowing, socketShowing } = useContext(ApplicationContext);
+	const { setSocketShowing, connectedUsers } = useContext(ApplicationContext);
 
 	const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 	const [menuOpen, setMenuOpen] = useState(!isTabletOrMobile);
@@ -136,6 +136,9 @@ const Header = () => {
 						>
 							New Contract
 						</button>
+						<p className="small-accent right-text margin-top-1rem">
+							Connected Users: {connectedUsers}
+						</p>
 					</nav>
 				</section>
 			)}

@@ -1,20 +1,23 @@
-import React, { useContext, useEffect, useRef } from "react";
-import io from "socket.io-client";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import CenterModal from "./CenterModal";
 import "./css/SocketManager.css";
+import socket from "../Helpers/socket";
+import { getAudioFromText } from "../Helpers/textToSpeech";
 
 const SocketManager = () => {
-	const { socketShowing, setSocketShowing, userId, setUserId } =
-		useContext(ApplicationContext);
+	const {
+		socketShowing,
+		setSocketShowing,
+		userId,
+		setUserId,
+		connectedUsers,
+		setConnectedUsers,
+	} = useContext(ApplicationContext);
 
-	const socketRef = useRef();
-
-	if (!socketRef.current) {
-		socketRef.current = io("http://localhost:3000");
-	}
-
-	const socket = socketRef.current;
+	const audioRef = useRef(new Audio());
+	const [audioBuffer, setAudioBuffer] = useState(null);
+	const [autoplayInitiated, setAutoplayInitiated] = useState(false);
 
 	useEffect(() => {
 		const storedUserId = localStorage.getItem("userId");
@@ -26,43 +29,99 @@ const SocketManager = () => {
 			socket.on("userId", (id) => {
 				localStorage.setItem("userId", id);
 				setUserId(id);
-				console.log(id);
 			});
 		}
 
+		socket.on("connectedUsers", (users) => {
+			setConnectedUsers(users);
+		});
+
+		socket.on("disconnect", (users) => {
+			setConnectedUsers(users);
+		});
+
+		socket.on("speechResult", (buffer) => {
+			console.log("Received audio buffer:", buffer);
+			setAudioBuffer(buffer);
+		});
+
+		socket.on("intentResponse", async (json) => {
+			console.log(JSON.parse(json.message.content).response);
+			const voice = await getAudioFromText(JSON.parse(json.message.content).response);
+		});
+
 		return () => {
-			socket.off("userId");
+			socket.off("speechResult");
 		};
-	}, [setUserId, socket]);
+	}, []);
+
+	useEffect(() => {
+		if (audioBuffer) {
+			try {
+				const blob = new Blob([audioBuffer], { type: "audio/mpeg" });
+				const url = URL.createObjectURL(blob);
+
+				audioRef.current.src = "";
+				audioRef.current.src = url;
+				audioRef.current.load();
+				console.log(url);
+
+				if (audioBuffer) {
+					audioRef.current.play().catch((error) => {
+						console.error("Error playing audio:", error);
+					});
+					setAutoplayInitiated(true);
+				}
+			} catch (error) {
+				console.error("Error creating object URL:", error);
+			}
+		}
+	}, [audioBuffer]);
+
+	useEffect(() => {
+		if (audioRef.current) {
+			audioRef.current.controls = false;
+			audioRef.current.muted = false;
+		}
+	}, []);
 
 	return (
-		socketShowing && (
-			<CenterModal title="Network Information">
-				<div className="input-row">
-					<p>
-						Below you will find your network identification number. Keep this
-						identification number in a safe place, and share with only those with whom
-						you wish to have access to your data. <br />
-						<br />
-						You can copy this identification number using the button below.
-					</p>
+		<React.Fragment>
+			{socketShowing && (
+				<CenterModal title="Network Information">
 					<div className="input-row">
-						<input
-							className="center-text"
-							type="text"
-							name="socket-id"
-							id="socket-id"
-							placeholder={userId}
-							value={userId}
-						/>
-						<button>Copy</button>
-						<button className="highlight" onClick={() => setSocketShowing(false)}>
-							Close
-						</button>
+						<p>
+							Below you will find your network identification number. Keep this
+							identification number in a safe place, and share with only those with whom
+							you wish to have access to your data.
+						</p>
+						<div className="input-row">
+							<input
+								className="center-text"
+								type="text"
+								name="socket-id"
+								id="socket-id"
+								placeholder={userId}
+								value={userId}
+							/>
+							<button>Copy</button>
+							<button className="highlight" onClick={() => setSocketShowing(false)}>
+								Close
+							</button>
+						</div>
 					</div>
-				</div>
-			</CenterModal>
-		)
+					<audio
+						key={
+							audioBuffer
+								? URL.createObjectURL(new Blob([audioBuffer], { type: "audio/mpeg" }))
+								: ""
+						}
+						ref={audioRef}
+						controls={false}
+					/>
+				</CenterModal>
+			)}
+		</React.Fragment>
 	);
 };
 
