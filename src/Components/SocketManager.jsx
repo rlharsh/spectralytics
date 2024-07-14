@@ -45,11 +45,6 @@ const SocketManager = () => {
 			setAudioBuffer(buffer);
 		});
 
-		socket.on("intentResponse", async (json) => {
-			console.log(JSON.parse(json.message.content).response);
-			const voice = await getAudioFromText(JSON.parse(json.message.content).response);
-		});
-
 		return () => {
 			socket.off("speechResult");
 		};

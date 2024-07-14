@@ -1,0 +1,14 @@
+.evidence-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  background-color: var(--ColorContainer);
+}
+.evidence-container a {
+  margin-top: 1rem;
+  text-align: right !important;
+  color: var(--ColorBlue);
+}

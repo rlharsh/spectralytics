@@ -1,0 +1,12 @@
+.objective-tile {
+	user-select: none;
+	cursor: pointer;
+	display: flex;
+	gap: 0.4rem;
+
+	&__left {
+		display: flex;
+		gap: 0.4rem;
+		align-items: center;
+	}
+}

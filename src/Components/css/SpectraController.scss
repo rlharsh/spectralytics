@@ -1,9 +1,9 @@
 .spectra {
 	position: fixed;
-	bottom: 4rem;
-	right: 4rem;
+	bottom: 2rem;
+	right: 2rem;
 
-	background-color: var(--ColorAccent);
+	background-color: var(--ColorBlue);
 	height: 3rem;
 	width: 3rem;
 	border-radius: 50%;
@@ -22,10 +22,10 @@
 	border: 1px solid var(--ColorOutline);
 
 	&:hover {
-		background-color: var(--ColorContainer);
+		background-color: #000;
 
 		svg {
-			color: var(--ColorAccent);
+			color: #fff;
 		}
 	}
 }

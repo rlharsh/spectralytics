@@ -1,0 +1,55 @@
+.evidence-tile {
+	padding: 0.6rem 1rem;
+	display: flex;
+	justify-content: space-between;
+	color: var(--ColorText);
+	border: 1px solid var(--ColorOutline);
+	border-radius: var(--BorderRadius);
+	font-weight: 700;
+
+	cursor: pointer;
+	transition: all 150ms ease-in-out;
+
+	&:hover {
+		background-color: var(--ColorContainerLight);
+	}
+
+	&--selected {
+		background-color: var(--ColorGreen);
+		font-weight: 700;
+		color: var(--ColorSolidGreen);
+		border: 1px solid var(--ColorSolidGreen);
+
+		&:hover {
+			border: 1px solid var(--ColorBlue);
+			background-color: var(--Background);
+		}
+
+		svg {
+			color: var(--ColorSolidGreen) !important;
+		}
+	}
+
+	svg {
+		color: var(--ColorBlue);
+		height: 1.2rem;
+		width: 1.2rem;
+	}
+
+	&--not-selected {
+		font-weight: 700;
+		color: var(--ColorSolidRed);
+		background-color: var(--ColorRed);
+		text-decoration: line-through;
+		border: 1px solid var(--ColorSolidRed);
+
+		svg {
+			color: var(--ColorSolidRed);
+		}
+
+		&:hover {
+			border: 1px solid var(--ColorRed);
+			background-color: var(--ColorContainerLight);
+		}
+	}
+}

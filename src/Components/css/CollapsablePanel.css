@@ -1,0 +1,29 @@
+.collapsable-panel {
+  border-radius: var(--BorderRadius);
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.collapsable-panel__header {
+  padding: 0.4rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--ColorContainerLight);
+  display: flex;
+  border: 1px solid var(--ColorOutline);
+  border-radius: var(--BorderRadius);
+}
+.collapsable-panel__header button {
+  max-width: 2rem;
+  max-height: 2rem;
+  padding: 0.2rem;
+}
+.collapsable-panel__header button svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.collapsable-panel__content {
+  margin-top: 1rem;
+  border-radius: var(--BorderRadius);
+  background-color: var(--Background);
+}

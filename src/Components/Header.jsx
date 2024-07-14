@@ -22,6 +22,7 @@ import { useAuth } from "../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineCloudServer } from "react-icons/ai";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 const Header = () => {
 	const { login, user, logout } = useAuth();
@@ -128,16 +129,19 @@ const Header = () => {
 								click={() => handleItemClick(item)}
 							/>
 						))}
-						<button
-							className="highlight margin-top"
-							type="button"
-							role="button"
-							onClick={() => navigate("contract")}
-						>
-							New Contract
-						</button>
+						<div className="flex-column">
+							<button
+								className="highlight margin-top"
+								type="button"
+								role="button"
+								onClick={() => navigate("contract")}
+							>
+								New Contract
+							</button>
+							<ThemeToggleButton />
+						</div>
 						<p className="small-accent right-text margin-top-1rem">
-							Connected Users: {connectedUsers}
+							Connected Users: <span className="accent-text">{connectedUsers}</span>
 						</p>
 					</nav>
 				</section>

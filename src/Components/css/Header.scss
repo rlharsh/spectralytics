@@ -24,7 +24,7 @@
 
 	h1 {
 		font-weight: 900;
-		font-size: 24px;
+		font-size: 20px;
 	}
 
 	&__branding {
@@ -33,7 +33,7 @@
 		gap: 0.4rem;
 
 		svg {
-			color: var(--ColorAccent);
+			color: var(--ColorBlue);
 			width: 1.8rem;
 			height: 1.8rem;
 		}
@@ -54,6 +54,11 @@
 		flex-direction: column;
 		background-color: var(--ColorContainer);
 		border: 1px solid var(--ColorOutline);
+		color: var(--ColorText);
+
+		svg {
+			color: var(--ColorBlue);
+		}
 
 		@include breakpoint(min, 1224px) {
 			position: fixed;
@@ -62,6 +67,7 @@
 			max-width: 16rem;
 			border-style: none;
 			box-shadow: none;
+			border: 1px solid var(--ColorOutline);
 		}
 	}
 }

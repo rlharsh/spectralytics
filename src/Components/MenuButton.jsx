@@ -8,7 +8,7 @@ const MenuButton = ({ item, click }) => {
 	return (
 		<div className="menu-button" onClick={() => click()}>
 			{item.icon && item.icon}
-			{item.name}
+			<p>{item.name}</p>
 		</div>
 	);
 };

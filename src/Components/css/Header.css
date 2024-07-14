@@ -24,7 +24,7 @@
 }
 .header h1 {
   font-weight: 900;
-  font-size: 24px;
+  font-size: 20px;
 }
 .header__branding {
   display: flex;
@@ -32,7 +32,7 @@
   gap: 0.4rem;
 }
 .header__branding svg {
-  color: var(--ColorAccent);
+  color: var(--ColorBlue);
   width: 1.8rem;
   height: 1.8rem;
 }
@@ -49,6 +49,10 @@
   flex-direction: column;
   background-color: var(--ColorContainer);
   border: 1px solid var(--ColorOutline);
+  color: var(--ColorText);
+}
+.header__navigation svg {
+  color: var(--ColorBlue);
 }
 @media (min-width: 1224px) {
   .header__navigation {
@@ -58,5 +62,6 @@
     max-width: 16rem;
     border-style: none;
     box-shadow: none;
+    border: 1px solid var(--ColorOutline);
   }
 }

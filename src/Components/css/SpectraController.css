@@ -1,8 +1,8 @@
 .spectra {
   position: fixed;
-  bottom: 4rem;
-  right: 4rem;
-  background-color: var(--ColorAccent);
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--ColorBlue);
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
@@ -18,8 +18,8 @@
   width: 1.6rem;
 }
 .spectra:hover {
-  background-color: var(--ColorContainer);
+  background-color: #000;
 }
 .spectra:hover svg {
-  color: var(--ColorAccent);
+  color: #fff;
 }

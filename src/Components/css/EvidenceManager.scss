@@ -1,0 +1,13 @@
+.evidence-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+	user-select: none;
+	background-color: var(--ColorContainer);
+
+	a {
+		margin-top: 1rem;
+		text-align: right !important;
+		color: var(--ColorBlue);
+	}
+}

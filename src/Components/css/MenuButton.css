@@ -12,5 +12,8 @@
   height: 1.2rem;
 }
 .menu-button:hover {
-  background-color: var(--ColorGrey);
+  background-color: var(--ColorContainerLight);
+}
+.menu-button p {
+  font-weight: 700;
 }

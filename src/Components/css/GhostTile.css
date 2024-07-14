@@ -1,0 +1,93 @@
+.ghost-tile {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ColorContainer);
+  border: 1px solid var(--ColorOutline);
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transition: all 150ms ease-in-out;
+  border-radius: var(--BorderRadius);
+  box-shadow: var(--Shadow);
+}
+.ghost-tile__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0rem 1rem;
+  padding-top: 1rem;
+  border-radius: var(--BorderRadius) var(--BorderRadius) 0 0;
+}
+.ghost-tile h3 {
+  font-weight: 700;
+}
+.ghost-tile__clues {
+  display: flex;
+  gap: 0.4rem;
+  color: var(--ColorText);
+}
+.ghost-tile__clues svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.ghost-tile__content {
+  padding: 1rem 1rem;
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.ghost-tile__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 0 0 var(--Border) var(--Border);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border-radius: 0 0 var(--BorderRadius) var(--BorderRadius);
+}
+.ghost-tile__footer svg {
+  color: var(--ColorBlue);
+  height: 1.4rem;
+  width: 1.4rem;
+}
+.ghost-tile__footer__left {
+  display: flex;
+  gap: 0.4rem;
+}
+.ghost-tile:hover {
+  z-index: 1000;
+}
+.ghost-tile__speed {
+  background-color: var(--ColorRed);
+  padding: 0.1rem 0.2rem;
+  border-radius: var(--BorderRadius);
+  border: 1px solid var(--ColorSolidRed);
+  color: var(--ColorSolidRed);
+}
+.ghost-tile__speed svg {
+  color: var(--ColorSolidRed) !important;
+}
+.ghost-tile__sanity {
+  background-color: var(--ColorGreen);
+  padding: 0.1rem 0.2rem;
+  border-radius: var(--BorderRadius);
+  border: 1px solid var(--ColorSolidGreen);
+  color: var(--ColorSolidGreen);
+}
+.ghost-tile__sanity svg {
+  color: var(--ColorSolidGreen) !important;
+}
+
+.clue {
+  padding: 0.1rem 0.1rem;
+  border-radius: var(--BorderRadius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--ColorBlue);
+}

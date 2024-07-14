@@ -1,0 +1,34 @@
+@import "../../../node_modules/gerillass/scss/gerillass";
+
+.collapsable-panel {
+	border-radius: var(--BorderRadius);
+	width: 100%;
+	height: fit-content;
+
+	&__header {
+		padding: 0.4rem 1rem;
+		align-items: center;
+		justify-content: space-between;
+		background-color: var(--ColorContainerLight);
+		display: flex;
+		border: 1px solid var(--ColorOutline);
+		border-radius: var(--BorderRadius);
+
+		button {
+			max-width: 2rem;
+			max-height: 2rem;
+			padding: 0.2rem;
+
+			svg {
+				width: 1.2rem;
+				height: 1.2rem;
+			}
+		}
+	}
+
+	&__content {
+		margin-top: 1rem;
+		border-radius: var(--BorderRadius);
+		background-color: var(--Background);
+	}
+}

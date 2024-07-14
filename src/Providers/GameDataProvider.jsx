@@ -12,11 +12,13 @@ const GameDataProvider = ({ children }) => {
 	const [ghostData, setGhostData] = useState([]);
 	const [mapData, setMapData] = useState([]);
 	const [objectiveData, setObjectiveData] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	const getCollection = async (collectionName) => {
 		try {
 			const storedData = localStorage.getItem(collectionName);
 			if (storedData) {
+				console.log(`Loaded ${collectionName} from localStorage`);
 				return JSON.parse(storedData);
 			} else {
 				const collectionRef = collection(db, collectionName);
@@ -26,6 +28,7 @@ const GameDataProvider = ({ children }) => {
 					...doc.data(),
 				}));
 				localStorage.setItem(collectionName, JSON.stringify(data));
+				console.log(`Fetched ${collectionName} from Firebase`);
 				return data;
 			}
 		} catch (error) {
@@ -47,6 +50,16 @@ const GameDataProvider = ({ children }) => {
 			setGhostData(gData);
 			setMapData(mData);
 			setObjectiveData(oData);
+
+			setLoading(false);
+
+			// Debugging logs
+			console.log("Evidence Data: ", eData);
+			console.log("Difficulty Data: ", dData);
+			console.log("Ghost Data: ", gData);
+			console.log("Map Data: ", mData);
+			console.log("Objective Data: ", oData);
+			console.log("Loading State after initialization: ", loading);
 		};
 
 		initializeData();
@@ -58,6 +71,7 @@ const GameDataProvider = ({ children }) => {
 		ghostData,
 		mapData,
 		objectiveData,
+		loading,
 	};
 
 	return <GameDataContext.Provider value={values}>{children}</GameDataContext.Provider>;

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// ApplicationView.jsx
+import React, { useContext } from "react";
 import { auth } from "../Configuration/Firebase";
 import { AuthProvider } from "../Providers/AuthProvider";
 import Header from "../Components/Header";
@@ -8,17 +9,19 @@ import ApplicationProvider from "../Providers/ApplicationProvider";
 import GameDataProvider from "../Providers/GameDataProvider";
 import SpectraController from "../Components/SpectraController";
 import SocketManager from "../Components/SocketManager";
+import { ThemeContext, ThemeProvider } from "../Providers/ThemeProvider";
+import ThemeToggleButton from "../Components/ThemeToggleButton";
 
 const ApplicationView = () => {
+	const { theme } = useContext(ThemeContext);
 	return (
 		<ApplicationProvider>
 			<AuthProvider auth={auth}>
 				<GameDataProvider>
-					<div className="app-view">
+					<div className={`App ${theme} app-view`}>
 						<SocketManager />
 						<Header />
 						<Outlet />
-						<SpectraController />
 					</div>
 				</GameDataProvider>
 			</AuthProvider>

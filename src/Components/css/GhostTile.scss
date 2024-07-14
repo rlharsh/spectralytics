@@ -1,0 +1,111 @@
+.ghost-tile {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--ColorContainer);
+	border: 1px solid var(--ColorOutline);
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+	transition: all 150ms ease-in-out;
+	border-radius: var(--BorderRadius);
+	box-shadow: var(--Shadow);
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+		//justify-content: space-between;
+		//align-items: center;
+		gap: 0.4rem;
+		padding: 0rem 1rem;
+		padding-top: 1rem;
+		//background-color: var(--ColorContainerLight);
+		border-radius: var(--BorderRadius) var(--BorderRadius) 0 0;
+
+		h1 {
+		}
+	}
+
+	h3 {
+		font-weight: 700;
+	}
+
+	&__clues {
+		display: flex;
+		gap: 0.4rem;
+		color: var(--ColorText);
+
+		svg {
+			width: 1.2rem;
+			height: 1.2rem;
+		}
+	}
+
+	&__content {
+		padding: 1rem 1rem;
+		margin-bottom: 4rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	&__footer {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		//background-color: var(--ColorContainer);
+		border-radius: 0 0 var(--Border) var(--Border);
+		display: flex;
+		justify-content: space-between;
+		padding: 0.8rem 1rem;
+		border-radius: 0 0 var(--BorderRadius) var(--BorderRadius);
+
+		svg {
+			color: var(--ColorBlue);
+			height: 1.4rem;
+			width: 1.4rem;
+		}
+
+		&__left {
+			display: flex;
+			gap: 0.4rem;
+		}
+	}
+
+	&:hover {
+		//background-color: var(--ColorContainerLight);
+		//transform: scale(1.01);
+		z-index: 1000;
+	}
+	&__speed {
+		background-color: var(--ColorRed);
+		padding: 0.1rem 0.2rem;
+		border-radius: var(--BorderRadius);
+		border: 1px solid var(--ColorSolidRed);
+		color: var(--ColorSolidRed);
+		svg {
+			color: var(--ColorSolidRed) !important;
+		}
+	}
+
+	&__sanity {
+		background-color: var(--ColorGreen);
+		padding: 0.1rem 0.2rem;
+		border-radius: var(--BorderRadius);
+		border: 1px solid var(--ColorSolidGreen);
+		color: var(--ColorSolidGreen);
+
+		svg {
+			color: var(--ColorSolidGreen) !important;
+		}
+	}
+}
+
+.clue {
+	padding: 0.1rem 0.1rem;
+	border-radius: var(--BorderRadius);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid var(--ColorBlue);
+}
