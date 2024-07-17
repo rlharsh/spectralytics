@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
+import PropTypes from "prop-types";
 import "./css/CenterModal.css";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 
 const CenterModal = ({ title, children }) => {
-	const { setSocketShowing } = useContext(ApplicationContext);
+	const { setSocketShowing, setMapModalShowing, setDifficultyModalShowing } =
+		useContext(ApplicationContext);
 
-	const handleBackdropClick = (e) => {
-		e.stopPropagation();
+	const handleBackdropClick = () => {
 		setSocketShowing(false);
+		setMapModalShowing(false);
+		setDifficultyModalShowing(false);
 	};
 
 	const handleContentClick = (e) => {
@@ -24,6 +27,11 @@ const CenterModal = ({ title, children }) => {
 			</div>
 		</div>
 	);
+};
+
+CenterModal.propTypes = {
+	title: PropTypes.string.isRequired,
+	children: PropTypes.node.isRequired,
 };
 
 export default CenterModal;

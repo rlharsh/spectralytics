@@ -15,6 +15,8 @@ const getIntent = (text, evidenceData, objectiveData, currentObjectives) => {
 
 	if (words.includes("new") && words.includes("contract")) {
 		intent.intent = "new_contract";
+		intent.response =
+			"Great, I've reset all of your data, and prepared a new contract sheet for you.";
 	}
 
 	if (
@@ -77,33 +79,35 @@ const getIntent = (text, evidenceData, objectiveData, currentObjectives) => {
 		intent.intent = "start_contract";
 	}
 
-	if (words.includes("objective")) {
-		if (words.includes("complete")) {
-			const matchedObjective = currentObjectives.find((objective) =>
-				objective.voice.some((word) => text.includes(word.toLowerCase()))
-			);
+	if (words.includes("objective") && words.includes("completed")) {
+		console.log(currentObjectives);
 
-			if (matchedObjective) {
-				intent.intent = "complete_objective";
-				intent.objective = matchedObjective;
-				intent.response = `${matchedObjective.name} completed.`;
-			}
+		const matchedObjective = objectiveData.find((objective) =>
+			objective.voice.some((word) => text.includes(word.toLowerCase()))
+		);
+
+		if (matchedObjective) {
+			intent.intent = "complete_objective";
+			intent.objective = matchedObjective;
+			intent.response = `${matchedObjective.name} completed.`;
 		} else {
-			const matchedObjective = objectiveData.find((objective) =>
-				objective.voice.some((word) => text.includes(word.toLowerCase()))
-			);
-
-			if (matchedObjective) {
-				intent.intent = "add_objective";
-				intent.objective = matchedObjective;
-			} else {
-				console.log("No matches.");
-			}
+			intent.intent = "complete_objective";
 		}
+	} else if (words.includes("objective")) {
+		const matchedObjective = objectiveData.find((objective) =>
+			objective.voice.some((word) => text.includes(word.toLowerCase()))
+		);
 
-		if (words.includes("reset") || words.includes("clear")) {
-			intent.intent = "reset_objective";
+		if (matchedObjective) {
+			intent.intent = "add_objective";
+			intent.objective = matchedObjective;
+		} else {
+			console.log("No matches.");
 		}
+	}
+
+	if (words.includes("reset") || words.includes("clear")) {
+		intent.intent = "reset_objective";
 	}
 
 	return intent;

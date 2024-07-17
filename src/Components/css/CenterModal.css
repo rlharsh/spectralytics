@@ -20,7 +20,7 @@
 }
 @media (min-width: 1224px) {
   .center-modal__content {
-    max-width: 28rem;
+    max-width: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
   }

@@ -13,11 +13,16 @@
 		height: 1.2rem;
 	}
 
-	&:hover {
-		background-color: var(--ColorContainerLight);
+	p {
+		font-weight: 400;
 	}
 
-	p {
-		font-weight: 700;
+	&:hover {
+		background-color: var(--Background);
+		color: var(--ColorBlue);
+
+		svg {
+			color: #fff;
+		}
 	}
 }

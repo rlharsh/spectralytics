@@ -11,9 +11,13 @@
   width: 1.2rem;
   height: 1.2rem;
 }
-.menu-button:hover {
-  background-color: var(--ColorContainerLight);
-}
 .menu-button p {
-  font-weight: 700;
+  font-weight: 400;
+}
+.menu-button:hover {
+  background-color: var(--Background);
+  color: var(--ColorBlue);
+}
+.menu-button:hover svg {
+  color: #fff;
 }

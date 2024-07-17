@@ -1,5 +1,4 @@
-import React from "react";
-
+import PropTypes from "prop-types";
 import "./css/RSSTile.css";
 
 const RSSTile = ({ item }) => {
@@ -51,6 +50,10 @@ const RSSTile = ({ item }) => {
 			</div>
 		</div>
 	);
+};
+
+RSSTile.propTypes = {
+	item: PropTypes.object.isRequired,
 };
 
 export default RSSTile;

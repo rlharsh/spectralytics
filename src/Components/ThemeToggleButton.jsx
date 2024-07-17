@@ -1,5 +1,5 @@
 // ThemeToggleButton.js
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../Providers/ThemeProvider";
 import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 

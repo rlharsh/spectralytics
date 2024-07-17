@@ -1,5 +1,6 @@
-import React, { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useState } from "react";
+//import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export const ApplicationContext = createContext(null);
 
@@ -9,16 +10,34 @@ const ApplicationProvider = ({ children }) => {
 	const [selectedEvidence, setSelectedEvidence] = useState([]);
 	const [selectedMap, setSelectedMap] = useState(undefined);
 	const [currentTimers, setCurrentTimers] = useState([]);
-	const [currentObjectives, setCurrentObjectives] = useState([]);
+	const [currentObjectives, setCurrentObjectives] = useState([
+		{
+			id: "bone-id",
+			condition:
+				"You must locate the bone, it can be hidden anywhere within the current map.",
+			description: "Locate the bone.",
+			notes: [""],
+			slug: "bone",
+			strategy: "Locate the bone.",
+			voice: ["bone"],
+			name: "Locate the bone.",
+		},
+	]);
+	const [difficultyModalShowing, setDifficultyModalShowing] = useState(false);
+	const [mapModalShowing, setMapModalShowing] = useState(false);
 	const [timerRunning, setTimerRunning] = useState(false);
 	const [time, setTime] = useState(0);
 	const [consoleLogs, setConsoleLogs] = useState([]);
 	const [socketShowing, setSocketShowing] = useState(false);
 	const [userId, setUserId] = useState("");
 	const [connectedUsers, setConnectedUsers] = useState(0);
-	const [awaitingAudio, setAwaitingAudio] = useState(false);
+	const [evidenceLog, setEvidenceLog] = useState([]);
+	const [startTime, setStartTime] = useState(undefined);
+	const [endTime, setEndTime] = useState(undefined);
+	const [elapsedTime, setElapsedTime] = useState("00:00:00");
+	const [gameLogs, setGameLogs] = useState([]);
 
-	const navigate = useNavigate();
+	//const navigate = useNavigate();
 
 	const newContract = () => {
 		setSelectedDifficulty(undefined);
@@ -26,14 +45,30 @@ const ApplicationProvider = ({ children }) => {
 		setSelectedGhost(undefined);
 		setSelectedEvidence([]);
 		setCurrentTimers([]);
-		setCurrentObjectives([]);
+		setCurrentObjectives([
+			{
+				id: "bone-id",
+				condition:
+					"You must locate the bone, it can be hidden anywhere within the current map.",
+				description: "Locate the bone.",
+				notes: [""],
+				slug: "bone",
+				strategy: "Locate the bone.",
+				voice: ["bone"],
+				name: "Locate the bone.",
+			},
+		]);
 		setTimerRunning(false);
 		setTime(0);
 	};
 
-	const endContract = () => {};
+	const updateGameLog = (event) => {
+		setGameLogs((prevState) => [...prevState, event]);
+	};
 
 	const values = {
+		evidenceLog,
+		setEvidenceLog,
 		selectedDifficulty,
 		setSelectedDifficulty,
 		selectedGhost,
@@ -50,7 +85,6 @@ const ApplicationProvider = ({ children }) => {
 		setTimerRunning,
 		time,
 		setTime,
-		endContract,
 		consoleLogs,
 		setConsoleLogs,
 		socketShowing,
@@ -59,10 +93,29 @@ const ApplicationProvider = ({ children }) => {
 		setUserId,
 		connectedUsers,
 		setConnectedUsers,
+		newContract,
+		startTime,
+		setStartTime,
+		endTime,
+		setEndTime,
+		elapsedTime,
+		setElapsedTime,
+		gameLogs,
+		setGameLogs,
+		updateGameLog,
+		mapModalShowing,
+		setMapModalShowing,
+		difficultyModalShowing,
+		setDifficultyModalShowing,
 	};
 
 	return (
 		<ApplicationContext.Provider value={values}>{children}</ApplicationContext.Provider>
 	);
 };
+
+ApplicationProvider.propTypes = {
+	children: PropTypes.object.isRequired,
+};
+
 export default ApplicationProvider;

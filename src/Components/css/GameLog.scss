@@ -1,0 +1,29 @@
+.game-log {
+	background-color: var(--ColorContainer);
+	width: 100%;
+}
+
+.game-log__container {
+	display: flex;
+	flex-direction: column;
+	gap: 4rem;
+}
+
+.ag-theme-quartz-auto-dark {
+	--ag-background-color: var(--Background);
+	--ag-header-background-color: var(--ColorContainerLight);
+	--ag-odd-row-background-color: var(--Background);
+	--ag-header-foreground-color: var(--ColorAccent);
+	--ag-foreground-color: var(--ColorText);
+	--ag-row-hover-color: var(--ColorAccentedHighlight);
+	--ag-selected-row-background-color: rgba(0, 150, 255, 0.3);
+	font-family: "Inter var", sans-serif;
+	font-weight: var(--FontWeightNormal);
+	font-size: var(--FontSizeNormal);
+	border-radius: var(--BorderRadius);
+	--ag-border-radius: 0px;
+	--ag-row-border-radius: 0px;
+	--ag-borders: none;
+	--ag-borders-row: none;
+	cursor: pointer;
+}

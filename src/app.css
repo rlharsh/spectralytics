@@ -6,17 +6,19 @@
   --Background: #1d2228;
   --ColorContainer: #21272f;
   --ColorContainerLight: #353e49;
-  --ColorText: #d3ddd9;
+  --ColorText: #cccccc;
   --ColorGrey: #414959;
   --FontSizeNormal: 14px;
   --FontWeightNormal: 400;
   --ColorBlue: #4f9bfa;
-  --BorderRadius: 0.4rem;
+  --BorderRadius: 0.2rem;
   --ColorAccent: #fff;
   --ColorAccentOff: #f8f8f8;
   --ColorOutline: #303741;
   --ColorTextHighlight: #fff;
   --ColorAccentTwo: #7a383876;
+  --ColorAccentedContainer: #28313e;
+  --ColorAccentedHighlight: #28313e;
   --ColorSolidRed: #ff06068b;
   --ColorSolidGreen: #287f00;
   --ColorGreen: #00ff8800;
@@ -25,22 +27,23 @@
 
 .dark-theme {
   --Background: #1d2228;
-  --ColorContainer: #21272f;
-  --ColorContainerLight: #353e49;
-  --ColorText: #ffffff;
+  --ColorContainer: #1d2228;
+  --ColorContainerLight: #20262e;
+  --ColorText: #cccccc;
   --ColorGrey: #414959;
   --FontSizeNormal: 14px;
   --FontWeightNormal: 400;
-  --ColorBlue: #4f9bfa;
+  --ColorBlue: #3999ec;
   --ColorAccent: #fff;
   --ColorAccentOff: #f8f8f8;
-  --ColorOutline: #313741;
+  --ColorOutline: #323842;
   --ColorAccentTwo: #7a383876;
   --ColorTextHighlight: #fff;
   --ColorSolidRed: #e583d0;
   --ColorSolidGreen: #30fba0;
   --ColorGreen: #223537;
   --ColorRed: #392836;
+  --ColorAccentedContainer: #20262e;
 }
 
 .light-theme {
@@ -59,6 +62,7 @@
   --ColorGreen: #00c15d1c;
   --ColorRed: #5b20500f;
   --ColorTextHighlight: #000;
+  --ColorAccentedContainer: #28313e;
 }
 
 body {
@@ -66,6 +70,7 @@ body {
   font-weight: var(--FontWeightNormal);
   font-size: var(--FontSizeNormal);
   line-height: 18px !important;
+  background-color: #1d2228;
 }
 
 a {
@@ -100,7 +105,6 @@ a {
     margin-top: 6rem;
     padding: 1rem 1rem;
     border-radius: var(--BorderRadius);
-    border: 1px solid var(--ColorOutline);
     max-width: calc(100% - 19rem);
   }
 }
@@ -164,7 +168,7 @@ a {
 button {
   border: none;
   background-color: var(--Background);
-  color: var(--ColorBlue);
+  color: #fff !important;
   font-weight: 700;
   font-family: "Inter var", sans-serif;
   line-height: 21px;
@@ -175,14 +179,16 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 150ms ease-in-out;
 }
 button svg {
   width: 1rem;
   height: 1rem;
 }
 button:hover {
-  background-color: var(--ColorContainerLight);
-  border: 1px solid var(--ColorAccent);
+  color: var(--Background) !important;
+  background-color: #fff !important;
+  border: 1px solid var(--ColorAccent) !important;
 }
 
 .highlight {
@@ -257,13 +263,12 @@ input[type=text] {
 }
 
 .accent-svg {
-  color: limegreen !important;
-  background-color: var(--ColorGreen) !important;
+  background-color: var(--ColorSolidGreen) !important;
   border: 1px solid var(--ColorSolidGreen) !important;
 }
 
 .accent-text {
-  color: var(--ColorSolidRed);
+  color: var(--ColorBlue);
 }
 
 .slug {
@@ -297,4 +302,12 @@ input[type=text] {
 
 input[type=checkbox] {
   accent-color: var(--ColorBlue);
+}
+
+.button-card {
+  background-color: var(--ColorContainer);
+  color: var(--ColorText);
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
 }

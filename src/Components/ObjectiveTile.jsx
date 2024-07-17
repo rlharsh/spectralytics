@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react"; // Import useEffect and useState
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import "./css/ObjectiveTile.css";
 
 const ObjectiveTile = ({ objective, click, selected }) => {
@@ -37,6 +38,12 @@ const ObjectiveTile = ({ objective, click, selected }) => {
 			</div>
 		</div>
 	);
+};
+
+ObjectiveTile.propTypes = {
+	objective: PropTypes.object.isRequired,
+	click: PropTypes.func.isRequired,
+	selected: PropTypes.func.isRequired,
 };
 
 export default ObjectiveTile;

@@ -10,20 +10,19 @@
   transition: all 150ms ease-in-out;
 }
 .evidence-tile:hover {
+  color: var(--ColorBlue);
   background-color: var(--ColorContainerLight);
 }
-.evidence-tile--selected {
-  background-color: var(--ColorGreen);
-  font-weight: 700;
-  color: var(--ColorSolidGreen);
-  border: 1px solid var(--ColorSolidGreen);
+.evidence-tile:hover svg {
+  color: #fff !important;
 }
-.evidence-tile--selected:hover {
-  border: 1px solid var(--ColorBlue);
-  background-color: var(--Background);
+.evidence-tile--selected {
+  background-color: var(--ColorSolidGreen);
+  font-weight: 700;
+  color: var(--Background);
 }
 .evidence-tile--selected svg {
-  color: var(--ColorSolidGreen) !important;
+  color: var(--Background) !important;
 }
 .evidence-tile svg {
   color: var(--ColorBlue);
@@ -32,13 +31,13 @@
 }
 .evidence-tile--not-selected {
   font-weight: 700;
-  color: var(--ColorSolidRed);
-  background-color: var(--ColorRed);
+  color: var(--Background);
+  background-color: var(--ColorSolidRed);
   text-decoration: line-through;
   border: 1px solid var(--ColorSolidRed);
 }
 .evidence-tile--not-selected svg {
-  color: var(--ColorSolidRed);
+  color: var(--Background);
 }
 .evidence-tile--not-selected:hover {
   border: 1px solid var(--ColorRed);

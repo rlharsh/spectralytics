@@ -11,22 +11,26 @@
 	transition: all 150ms ease-in-out;
 
 	&:hover {
+		color: var(--ColorBlue);
 		background-color: var(--ColorContainerLight);
+		svg {
+			color: #fff !important;
+		}
 	}
 
 	&--selected {
-		background-color: var(--ColorGreen);
+		background-color: var(--ColorSolidGreen);
 		font-weight: 700;
-		color: var(--ColorSolidGreen);
-		border: 1px solid var(--ColorSolidGreen);
+		color: var(--Background);
+		//border: 1px solid var(--ColorSolidGreen);
 
 		&:hover {
-			border: 1px solid var(--ColorBlue);
-			background-color: var(--Background);
+			//border: 1px solid var(--ColorBlue);
+			//background-color: var(--Background);
 		}
 
 		svg {
-			color: var(--ColorSolidGreen) !important;
+			color: var(--Background) !important;
 		}
 	}
 
@@ -38,13 +42,13 @@
 
 	&--not-selected {
 		font-weight: 700;
-		color: var(--ColorSolidRed);
-		background-color: var(--ColorRed);
+		color: var(--Background);
+		background-color: var(--ColorSolidRed);
 		text-decoration: line-through;
 		border: 1px solid var(--ColorSolidRed);
 
 		svg {
-			color: var(--ColorSolidRed);
+			color: var(--Background);
 		}
 
 		&:hover {

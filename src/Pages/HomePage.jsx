@@ -1,4 +1,3 @@
-import React from "react";
 import RSS from "../Components/RSS";
 
 const HomePage = () => {

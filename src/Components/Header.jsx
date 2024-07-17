@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import "./css/Header.css";
 import { useMediaQuery } from "react-responsive";
 import { TbDeviceAnalytics } from "react-icons/tb";
 import { Button } from "@chakra-ui/react";
-import { CiMenuBurger, CiMenuFries } from "react-icons/ci";
 import MenuButton from "./MenuButton";
 import Avatar from "./Avatar";
 
@@ -99,7 +98,7 @@ const Header = () => {
 		if (item?.action) {
 			item.action();
 		} else if (item?.link) {
-			navigate(item.link);
+			handleLinkClick(item.link);
 		}
 	};
 

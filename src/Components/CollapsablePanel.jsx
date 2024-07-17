@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import "./css/CollapsablePanel.css";
 import { AiOutlineExpandAlt, AiOutlineShrink } from "react-icons/ai";
 
@@ -21,4 +22,8 @@ const CollapsablePanel = ({ title, children }) => {
 	);
 };
 
+CollapsablePanel.propTypes = {
+	title: PropTypes.string.isRequired,
+	children: PropTypes.node.isRequired,
+};
 export default CollapsablePanel;

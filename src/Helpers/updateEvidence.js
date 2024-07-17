@@ -1,6 +1,16 @@
-export function toggleSelectedEvidence(evidenceData, selectedEvidences, evidence) {
-	console.log(selectedEvidences);
+export const eventLog = [];
 
+function generateUniqueId() {
+	return "_" + Math.random().toString(36).substr(2, 9);
+}
+
+export function notifyLogsChange() {
+	console.log("We adding now", new Date());
+	const event = new Event("eventLogChanged");
+	window.dispatchEvent(event);
+}
+
+export function toggleSelectedEvidence(evidenceData, selectedEvidences, evidence) {
 	if (doesEvidenceExist(selectedEvidences, evidence)) {
 		console.log("Found evidence in selectedEvidences.");
 		return toggleEvidenceState(selectedEvidences, evidence);
@@ -11,6 +21,7 @@ export function toggleSelectedEvidence(evidenceData, selectedEvidences, evidence
 }
 
 export function addEvidence(evidenceData, evidence) {
+	console.log("Adding evidence: ", evidence);
 	return [
 		...evidenceData,
 		{
@@ -29,6 +40,7 @@ function toggleEvidenceState(evidenceData, evidence) {
 	} else if (evidenceInformation.selectedState === 2) {
 		updatedEvidence.splice(existingIndex, 1);
 	}
+	//notifyLogsChange();
 	return updatedEvidence;
 }
 
@@ -39,45 +51,62 @@ export function removeEvidence(evidenceData, evidence) {
 
 	if (evidenceInformation) {
 		updatedEvidence.splice(existingIndex, 1);
+		//notifyLogsChange();
 	}
 	return updatedEvidence;
 }
 
-export function selectEvidence(evidenceData, evidence) {
+export function selectEvidence(evidenceData, evidence, logData) {
 	const updatedEvidence = [...evidenceData];
 	const evidenceInformation = updatedEvidence.find((e) => e.id === evidence.id);
 	const existingIndex = updatedEvidence.findIndex((e) => e.id === evidence.id);
 
 	if (evidenceInformation) {
-		updatedEvidence[existingIndex].selectedState = 2;
+		/*
+		eventLog.push({
+			...logData,
+			type: "Evidence",
+			description: `User updated evidence ${evidence.name}.`,
+		});
+		*/
+		//notifyLogsChange();
+		return evidenceData;
 	} else {
-		return [
+		const newEvidence = [
 			...evidenceData,
 			{
 				...evidence,
 				selectedState: 1,
 			},
 		];
+		//notifyLogsChange();
+		return newEvidence;
 	}
-
-	return updatedEvidence;
 }
 
-export function notEvidence(evidenceData, evidence) {
+export function notEvidence(evidenceData, evidence, logData) {
 	const updatedEvidence = [...evidenceData];
 	const evidenceInformation = updatedEvidence.find((e) => e.id === evidence.id);
 	const existingIndex = updatedEvidence.findIndex((e) => e.id === evidence.id);
 
 	if (evidenceInformation) {
 		updatedEvidence[existingIndex].selectedState = 2;
+		//notifyLogsChange();
 	} else {
-		return [
+		const newEvidence = [
 			...evidenceData,
 			{
 				...evidence,
 				selectedState: 2,
 			},
 		];
+		eventLog.push({
+			...logData,
+			type: "Evidence",
+			description: `User has ruled out ${evidence.name}`,
+		});
+		//notifyLogsChange();
+		return newEvidence;
 	}
 
 	return updatedEvidence;
@@ -90,5 +119,26 @@ function doesEvidenceExist(evidenceData, evidence) {
 export function clearAllEvidences(evidenceData) {
 	let updatedEvidence = [...evidenceData];
 	updatedEvidence = [];
+	//notifyLogsChange();
 	return updatedEvidence;
 }
+
+export const capitalName = (str) => {
+	return str
+		.split(" ")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ");
+};
+
+export const formatDateTime = (date) => {
+	const options = {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		hour12: false, // Use 24-hour format
+	};
+	return new Intl.DateTimeFormat("en-US", options).format(date);
+};

@@ -5,6 +5,14 @@
   cursor: pointer;
   display: flex;
   gap: 0.4rem;
+  color: #fff;
+  font-weight: 500;
+}
+.objective-tile:hover {
+  color: var(--ColorBlue);
+}
+.objective-tile label {
+  cursor: pointer;
 }
 .objective-tile__left {
   display: flex;

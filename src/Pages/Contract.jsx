@@ -1,18 +1,18 @@
-import React, { useContext, useEffect } from "react";
-import { useAuth } from "../Providers/AuthProvider";
-import { GameDataContext } from "../Providers/GameDataProvider";
 import CollapsablePanel from "../Components/CollapsablePanel";
 import GhostManager from "../Components/GhostManager";
 import EvidenceManager from "../Components/EvidenceManager";
 import SpectraController from "../Components/SpectraController";
 import ObjectiveManager from "../Components/ObjectiveManager";
+import GameLog from "../Components/GameLog";
+import ContractInformation from "../Components/ContractInformation";
+import MapManager from "../Components/MapManager";
+import DifficultyManager from "../Components/DifficultyManager";
 
 const Contract = () => {
-	const { evidenceData, difficultyData, ghostData, mapData, objectiveData } =
-		useContext(GameDataContext);
-
 	return (
 		<main className="page-container">
+			<MapManager title="Map Manager" />
+			<DifficultyManager title="Difficulty Mangaer" />
 			<SpectraController />
 			<div className="double-panel">
 				<section className="double-panel__main">
@@ -27,9 +27,16 @@ const Contract = () => {
 							<GhostManager />
 						</CollapsablePanel>
 					</section>
+					<section>
+						<CollapsablePanel title="Logs">
+							<GameLog />
+						</CollapsablePanel>
+					</section>
 				</section>
 				<aside className="double-panel__sidebar">
-					<CollapsablePanel title="Contract">Not Yet Implemented</CollapsablePanel>
+					<CollapsablePanel title="Contract">
+						<ContractInformation />
+					</CollapsablePanel>
 					<CollapsablePanel title="Evidence">
 						<EvidenceManager />
 					</CollapsablePanel>

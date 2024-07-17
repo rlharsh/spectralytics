@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "./css/ObjectiveManager.css";
-import GameDataProvider, { GameDataContext } from "../Providers/GameDataProvider";
+import { GameDataContext } from "../Providers/GameDataProvider";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import ObjectiveTile from "./ObjectiveTile";
 import {
@@ -10,41 +10,14 @@ import {
 } from "../Helpers/updateObjectives";
 
 const ObjectiveManager = () => {
-	const { evidenceData, difficultyData, ghostData, mapData, objectiveData } =
-		useContext(GameDataContext);
-	const {
-		selectedDifficulty,
-		setSelectedDifficulty,
-		selectedGhost,
-		setSelectedGhost,
-		selectedEvidence,
-		setSelectedEvidence,
-		selectedMap,
-		setSelectedMap,
-		currentTimers,
-		setCurrentTimers,
-		currentObjectives,
-		setCurrentObjectives,
-		timerRunning,
-		setTimerRunning,
-		time,
-		setTime,
-		endContract,
-		consoleLogs,
-		setConsoleLogs,
-		socketShowing,
-		setSocketShowing,
-		userId,
-		setUserId,
-		connectedUsers,
-		setConnectedUsers,
-	} = useContext(ApplicationContext);
+	const { objectiveData } = useContext(GameDataContext);
+	const { currentObjectives, setCurrentObjectives } = useContext(ApplicationContext);
 
 	const handleObjectiveClick = (objective) => {
 		const objectiveData = currentObjectives.find((e) => e.id === objective.id) ?? null;
 
 		if (objectiveData) {
-			if (currentObjectives.length === 3) {
+			if (currentObjectives.length === 4) {
 				setCurrentObjectives((prevObjectives) =>
 					completeObjective(prevObjectives, objectiveData)
 				);
@@ -54,8 +27,7 @@ const ObjectiveManager = () => {
 				);
 			}
 		} else {
-			if (currentObjectives.length === 3) {
-			} else {
+			if (currentObjectives.length !== 4) {
 				setCurrentObjectives((prevObjectives) =>
 					selectObjective(prevObjectives, objective)
 				);
@@ -64,15 +36,28 @@ const ObjectiveManager = () => {
 	};
 
 	const handleResetObjectives = () => {
-		setCurrentObjectives([]);
+		setCurrentObjectives([
+			{
+				id: "bone-id",
+				condition:
+					"You must locate the bone, it can be hidden anywhere within the current map.",
+				description: "Locate the bone.",
+				notes: [""],
+				slug: "bone",
+				strategy: "Locate the bone.",
+				voice: ["bone"],
+				name: "Locate the bone.",
+			},
+		]);
 	};
 
 	return (
 		<div className="objective-wrapper">
-			{currentObjectives.length !== 3 ? (
+			{currentObjectives.length !== 4 ? (
 				<>
 					{objectiveData.map((objective) => (
 						<ObjectiveTile
+							key={objective.id}
 							objective={objective}
 							click={() => handleObjectiveClick(objective)}
 							selected={() => currentObjectives.some((obj) => obj.id === objective.id)}
@@ -86,6 +71,7 @@ const ObjectiveManager = () => {
 				<>
 					{currentObjectives.map((objective) => (
 						<ObjectiveTile
+							key={objective.id}
 							objective={objective}
 							click={() => handleObjectiveClick(objective)}
 							selected={objective.complete}

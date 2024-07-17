@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "./css/GhostTile.scss";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import { FaThermometerFull } from "react-icons/fa";
@@ -9,7 +9,8 @@ import { IoBookOutline } from "react-icons/io5";
 import { TfiLayoutGrid2 } from "react-icons/tfi";
 import { BiQuestionMark } from "react-icons/bi";
 import { BsBox } from "react-icons/bs";
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import { AiOutlineEllipsis } from "react-icons/ai";
+import PropTypes from "prop-types";
 
 const GhostTile = ({ ghost }) => {
 	const { selectedEvidence } = useContext(ApplicationContext);
@@ -43,7 +44,10 @@ const GhostTile = ({ ghost }) => {
 	return (
 		<div className="ghost-tile">
 			<header className="ghost-tile__header">
-				<h1>{ghost.name}</h1>
+				<h2>{ghost.name}</h2>
+				<button className="button-card">
+					<AiOutlineEllipsis />
+				</button>
 			</header>
 			<div className="ghost-tile__content">
 				<h3 className="accent-text">Game Description</h3>
@@ -87,6 +91,10 @@ const GhostTile = ({ ghost }) => {
 			</footer>
 		</div>
 	);
+};
+
+GhostTile.propTypes = {
+	ghost: PropTypes.object.isRequired,
 };
 
 export default GhostTile;

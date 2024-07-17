@@ -1,30 +1,19 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import CenterModal from "./CenterModal";
 import "./css/SocketManager.css";
-import socket from "../Helpers/socket";
-import { getAudioFromText } from "../Helpers/textToSpeech";
+import socket, { uuid } from "../Helpers/socket";
 
 const SocketManager = () => {
-	const {
-		socketShowing,
-		setSocketShowing,
-		userId,
-		setUserId,
-		connectedUsers,
-		setConnectedUsers,
-	} = useContext(ApplicationContext);
-
-	const audioRef = useRef(new Audio());
-	const [audioBuffer, setAudioBuffer] = useState(null);
-	const [autoplayInitiated, setAutoplayInitiated] = useState(false);
+	const { socketShowing, setSocketShowing, setUserId, setConnectedUsers } =
+		useContext(ApplicationContext);
 
 	useEffect(() => {
 		const storedUserId = localStorage.getItem("userId");
 
 		if (storedUserId) {
 			setUserId(storedUserId);
-			socket.emit("joinRoom", storedUserId);
+			socket.emit("joinRoom", uuid);
 		} else {
 			socket.on("userId", (id) => {
 				localStorage.setItem("userId", id);
@@ -40,45 +29,18 @@ const SocketManager = () => {
 			setConnectedUsers(users);
 		});
 
-		socket.on("speechResult", (buffer) => {
-			console.log("Received audio buffer:", buffer);
-			setAudioBuffer(buffer);
+		socket.on("objectiveBuffers", (buffer) => {
+			console.log("Received some objective data: ", buffer);
+		});
+
+		socket.on("userJoined", (userId) => {
+			console.log(`User with ID ${userId} joined the room.`);
 		});
 
 		return () => {
 			socket.off("speechResult");
 		};
-	}, []);
-
-	useEffect(() => {
-		if (audioBuffer) {
-			try {
-				const blob = new Blob([audioBuffer], { type: "audio/mpeg" });
-				const url = URL.createObjectURL(blob);
-
-				audioRef.current.src = "";
-				audioRef.current.src = url;
-				audioRef.current.load();
-				console.log(url);
-
-				if (audioBuffer) {
-					audioRef.current.play().catch((error) => {
-						console.error("Error playing audio:", error);
-					});
-					setAutoplayInitiated(true);
-				}
-			} catch (error) {
-				console.error("Error creating object URL:", error);
-			}
-		}
-	}, [audioBuffer]);
-
-	useEffect(() => {
-		if (audioRef.current) {
-			audioRef.current.controls = false;
-			audioRef.current.muted = false;
-		}
-	}, []);
+	}, [setConnectedUsers, setUserId]);
 
 	return (
 		<React.Fragment>
@@ -96,8 +58,8 @@ const SocketManager = () => {
 								type="text"
 								name="socket-id"
 								id="socket-id"
-								placeholder={userId}
-								value={userId}
+								placeholder={uuid}
+								value={uuid}
 							/>
 							<button>Copy</button>
 							<button className="highlight" onClick={() => setSocketShowing(false)}>

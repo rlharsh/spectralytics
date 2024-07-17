@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GameDataContext } from "../Providers/GameDataProvider";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import GhostTile from "./GhostTile";
@@ -6,41 +6,14 @@ import "./css/GhostManager.css";
 import { useLocation } from "react-router-dom";
 
 const GhostManager = () => {
-	const { evidenceData, difficultyData, ghostData, mapData, objectiveData } =
-		useContext(GameDataContext);
-	const {
-		selectedDifficulty,
-		setSelectedDifficulty,
-		selectedGhost,
-		setSelectedGhost,
-		selectedEvidence,
-		setSelectedEvidence,
-		selectedMap,
-		setSelectedMap,
-		currentTimers,
-		setCurrentTimers,
-		currentObjectives,
-		setCurrentObjectives,
-		timerRunning,
-		setTimerRunning,
-		time,
-		setTime,
-		endContract,
-		consoleLogs,
-		setConsoleLogs,
-		socketShowing,
-		setSocketShowing,
-		userId,
-		setUserId,
-		connectedUsers,
-		setConnectedUsers,
-	} = useContext(ApplicationContext);
+	const { ghostData } = useContext(GameDataContext);
+	const { setSelectedGhost, selectedEvidence } = useContext(ApplicationContext);
 
 	const [ghostTiles, setGhostTiles] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const location = useLocation();
 
-	const filterGhostsByEvidence = () => {
+	const filterGhostsByEvidence = useCallback(() => {
 		return ghostData.filter((ghost) => {
 			const ghostCluesLower = ghost.clues.map((clue) => clue.toLowerCase());
 
@@ -58,9 +31,9 @@ const GhostManager = () => {
 
 			return allConfirmedMatch && !anyRuledOutMatch;
 		});
-	};
+	}, [ghostData, selectedEvidence]);
 
-	const filterGhosts = () => {
+	const filterGhosts = useCallback(() => {
 		let filteredGhosts = filterGhostsByEvidence();
 
 		if (searchTerm) {
@@ -68,36 +41,31 @@ const GhostManager = () => {
 				ghost.name.toLowerCase().includes(searchTerm.toLowerCase())
 			);
 			return ghost;
-			//filteredGhosts = filteredGhosts.filter((ghost) =>
-			//	ghost.name.toLowerCase().includes(searchTerm.toLowerCase())
-			//);
 		}
 
 		return filteredGhosts;
-	};
+	}, [ghostData, searchTerm, filterGhostsByEvidence]);
 
 	useEffect(() => {
 		if (ghostData.length > 0) {
 			setGhostTiles(ghostData);
 		}
-	}, [location.pathname]);
+	}, [location.pathname, ghostData]);
 
 	useEffect(() => {
 		const filteredGhosts = filterGhosts();
 		setGhostTiles(filteredGhosts);
 
 		if (filteredGhosts.length === 1) {
-			// setSelectedGhost(filteredGhosts[0]);
+			setSelectedGhost(filteredGhosts[0]);
 		} else {
 			setSelectedGhost(undefined);
 		}
-	}, [selectedEvidence, searchTerm]);
+	}, [selectedEvidence, searchTerm, filterGhosts, setSelectedGhost, setGhostTiles]);
 
 	const handleSearchChange = (event) => {
 		setSearchTerm(event.target.value);
 	};
-
-	useEffect(() => {}, []);
 
 	return (
 		<div className="ghost-manager-wrapper">

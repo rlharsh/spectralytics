@@ -22,7 +22,7 @@
 		padding: 1rem;
 
 		@include breakpoint(min, 1224px) {
-			max-width: 28rem;
+			max-width: 30%;
 			left: 50%;
 			transform: translate(-50%, -50%);
 		}

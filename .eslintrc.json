@@ -1,0 +1,15 @@
+{
+  "name": "your-project",
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-unused-vars": "error"
+    }
+  }
+}

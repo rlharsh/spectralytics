@@ -6,7 +6,7 @@
 	justify-content: space-between;
 	align-items: center;
 	position: relative;
-	background-color: var(--ColorContainer);
+	background-color: var(--ColorAccentedHighlight);
 	user-select: none;
 
 	@include breakpoint(min, 1224px) {
@@ -52,7 +52,7 @@
 
 		display: flex;
 		flex-direction: column;
-		background-color: var(--ColorContainer);
+		background-color: var(--ColorAccentedHighlight);
 		border: 1px solid var(--ColorOutline);
 		color: var(--ColorText);
 

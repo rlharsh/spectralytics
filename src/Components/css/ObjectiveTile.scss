@@ -4,6 +4,18 @@
 	display: flex;
 	gap: 0.4rem;
 
+	color: #fff;
+
+	&:hover {
+		color: var(--ColorBlue);
+	}
+
+	label {
+		cursor: pointer;
+	}
+
+	font-weight: 500;
+
 	&__left {
 		display: flex;
 		gap: 0.4rem;

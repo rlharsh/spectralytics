@@ -1,72 +1,326 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import "./css/SpectraController.css";
 import { AiOutlineRobot } from "react-icons/ai";
-import { getAudioFromText } from "../Helpers/textToSpeech";
-import { getIntent } from "../Helpers/nlpProcessor";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
-import GameDataProvider, { GameDataContext } from "../Providers/GameDataProvider";
-import {
-	notEvidence,
-	removeEvidence,
-	selectEvidence,
-	toggleSelectedEvidence,
-} from "../Helpers/updateEvidence";
+import { GameDataContext } from "../Providers/GameDataProvider";
+import { notEvidence, removeEvidence, selectEvidence } from "../Helpers/updateEvidence";
+import { v4 as uuidv4 } from "uuid";
 import { completeObjective, selectObjective } from "../Helpers/updateObjectives";
+import socket from "../Helpers/socket";
+import { useAuth } from "../Providers/AuthProvider";
 
 const SpectraController = () => {
+	const { user } = useAuth();
+
 	const [isSupported, setIsSupported] = useState(true);
 	const [transcript, setTranscript] = useState(null);
 	const [listening, setListening] = useState(false);
-	const [voiceUrl, setVoiceUrl] = useState(null);
 
-	const [awaitingReturn, setAwaitingReturn] = useState(false);
 	const recognitionRef = useRef(null);
-	const wakeWordHeardRef = useRef(false);
 	const silenceTimeoutRef = useRef(null);
 	const audioRef = useRef(null);
 
 	const {
-		selectedEvidence,
 		setSelectedEvidence,
 		selectedGhost,
 		currentObjectives,
 		setCurrentObjectives,
+		newContract,
+		startTime,
+		setStartTime,
+		setEndTime,
+		elapsedTime,
+		setElapsedTime,
+		updateGameLog,
+		gameLogs,
 	} = useContext(ApplicationContext);
-	const { evidenceData, loading, objectiveData } = useContext(GameDataContext);
+	const { evidenceData, loading, objectiveData, writeGameLog } =
+		useContext(GameDataContext);
+
+	const contractTimer = useRef(null);
 
 	const toggleListening = () => {
 		setListening((previousListening) => !previousListening);
 		if (!listening) {
-			console.log("Starting speech logging.");
 			if (recognitionRef.current) recognitionRef.current.start();
 		} else {
-			console.log("Stopping speech logging.");
 			if (recognitionRef.current) recognitionRef.current.stop();
 		}
 	};
 
-	useEffect(() => {
-		console.log("selectedEvidence updated.");
-	}, [selectedEvidence]);
+	const addEvidence = useCallback(
+		(e, l) => {
+			if (!contractTimer.current) return;
+
+			console.log("Adding evidence:", e);
+			const locatedEvidence = evidenceData.find((ev) => ev.evidenceSlug === e);
+
+			if (locatedEvidence) {
+				console.log(`${e} is a confirmed match.`);
+				setSelectedEvidence((prevEvidence) =>
+					selectEvidence(prevEvidence, locatedEvidence, {
+						time: new Date(),
+						location: l,
+						evidence: locatedEvidence.name,
+						type: "Evidence",
+						description: `Updated evidence ${locatedEvidence.name}`,
+					})
+				);
+				updateGameLog({
+					time: new Date(),
+					location: l,
+					evidence: locatedEvidence.name,
+					type: "Evidence",
+					description: `Updated evidence ${locatedEvidence.name}`,
+				});
+			} else {
+				console.log(`Unable to find a match for ${e}.`);
+			}
+		},
+		[evidenceData, contractTimer, setSelectedEvidence, updateGameLog]
+	);
+
+	const unselectEvidence = useCallback(
+		(e) => {
+			if (!contractTimer.current) return;
+
+			const locatedEvidence = evidenceData.find((ev) => ev.evidenceSlug === e);
+
+			if (locatedEvidence) {
+				setSelectedEvidence((prevEvidence) =>
+					removeEvidence(prevEvidence, locatedEvidence)
+				);
+			}
+		},
+		[evidenceData, contractTimer, setSelectedEvidence]
+	);
+
+	const notThisEvidence = useCallback(
+		(e) => {
+			if (!contractTimer.current) return;
+
+			const locatedEvidence = evidenceData.find((ev) => ev.evidenceSlug === e);
+
+			if (locatedEvidence) {
+				setSelectedEvidence((prevEvidence) =>
+					notEvidence(prevEvidence, locatedEvidence, {
+						time: new Date(),
+						location: "N/A",
+						evidence: locatedEvidence.name,
+					})
+				);
+				updateGameLog({
+					time: new Date(),
+					location: "N/A",
+					evidence: locatedEvidence.name,
+					type: "Evidence Dismissed",
+					description: `User has ruled out ${locatedEvidence.name} as evidence.`,
+				});
+			} else {
+				console.log(`Could not find evidence: ${e}`);
+			}
+		},
+		[evidenceData, contractTimer, setSelectedEvidence, updateGameLog]
+	);
+
+	const addObjective = useCallback(
+		(e) => {
+			const locatedObjective = objectiveData.find((ob) => ob.slug === e);
+
+			if (locatedObjective) {
+				setCurrentObjectives((prevObjectives) =>
+					selectObjective(prevObjectives, locatedObjective)
+				);
+				updateGameLog({
+					time: new Date(),
+					location: "N/A",
+					evidence: "N/A",
+					type: "Objective Added",
+					description: locatedObjective.name,
+				});
+			}
+		},
+		[objectiveData, setCurrentObjectives, updateGameLog]
+	);
+
+	const completeAnObjective = useCallback(
+		(e, l) => {
+			if (!contractTimer.current) return;
+
+			console.log("Event received:", e);
+			console.log("Current objectives before update:", currentObjectives);
+
+			const locatedObjective = currentObjectives.find((ob) => ob.slug === e) ?? null;
+
+			if (locatedObjective) {
+				setCurrentObjectives((prevObjectives) =>
+					completeObjective(prevObjectives, locatedObjective, l)
+				);
+				updateGameLog({
+					time: new Date(),
+					location: l ? l : "N/A",
+					evidence: "N/A",
+					type: "Objective",
+					description: locatedObjective.name,
+				});
+			} else {
+				console.warn("Objective not found for slug:", e);
+			}
+		},
+		[contractTimer, setCurrentObjectives, currentObjectives, updateGameLog]
+	);
+
+	const endContract = useCallback(async () => {
+		if (!contractTimer.current) return;
+
+		if (contractTimer.current) {
+			clearInterval(contractTimer.current);
+			contractTimer.current = null;
+		}
+		updateGameLog({
+			time: new Date(),
+			location: "N/A",
+			evidence: "N/A",
+			type: "Objective",
+			description: "User has ended the contract.",
+		});
+		setStartTime(null);
+
+		const uid = uuidv4();
+		console.log(user);
+		setEndTime(new Date());
+
+		const contractData = {
+			id: uid,
+			owner: uid,
+			startTime: startTime,
+			endTime: new Date(),
+			elapsedTime: elapsedTime,
+			selectedGhost: selectedGhost ?? "Unknown",
+			duration: elapsedTime,
+			evidenceLogs: gameLogs.filter((event) => event.type === "Evidence"),
+			objectiveLogs: gameLogs.filter((event) => event.type === "Objective"),
+		};
+
+		await writeGameLog(contractData);
+		console.log("Finished");
+	}, [
+		contractTimer,
+		elapsedTime,
+		setEndTime,
+		setStartTime,
+		startTime,
+		user,
+		writeGameLog,
+		selectedGhost,
+		gameLogs,
+		updateGameLog,
+	]);
+
+	const beginContract = useCallback(async () => {
+		setStartTime(new Date());
+		updateGameLog({
+			time: new Date(),
+			location: "N/A",
+			evidence: "N/A",
+			type: "Contract Start",
+			description: "User has begun the contract.",
+		});
+	}, [setStartTime, updateGameLog]);
 
 	useEffect(() => {
-		const updateURL = async () => {
-			if (selectedGhost !== undefined) {
-				const url = await getAudioFromText(
-					`Congratulations, it looks like you found an ${selectedGhost.name}! Make sure to select it in your Journal before leaving.`
-				);
-				//playAudio(url);
+		if (startTime) {
+			contractTimer.current = setInterval(() => {
+				const now = new Date();
+				const diff = now - startTime;
+				const hours = Math.floor(diff / 3600000)
+					.toString()
+					.padStart(2, "0");
+				const minutes = Math.floor((diff % 3600000) / 60000)
+					.toString()
+					.padStart(2, "0");
+				const seconds = Math.floor((diff % 60000) / 1000)
+					.toString()
+					.padStart(2, "0");
+				setElapsedTime(`${hours}:${minutes}:${seconds}`);
+			}, 1000);
+		}
+		return () => {
+			clearInterval(contractTimer.current);
+			contractTimer.current = null;
+		};
+	}, [startTime, setElapsedTime]);
+
+	useEffect(() => {
+		const handleNlpResponse = (responseData) => {
+			const json = JSON.parse(responseData);
+			const intent = json.intent;
+			const evidence = json.evidence;
+			const location = json.location;
+			const objective = json.objectives;
+			playAudio();
+
+			switch (intent) {
+				case "select_evidence":
+					evidence.forEach((e) => addEvidence(e, location));
+					break;
+				case "unselect_evidence":
+					evidence.forEach((e) => unselectEvidence(e));
+					break;
+				case "not_evidence":
+					evidence.forEach((e) => notThisEvidence(e));
+					break;
+				case "add_objective":
+					objective.forEach((e) => addObjective(e));
+					break;
+				case "complete_objective":
+					objective.forEach((e) => completeAnObjective(e, location));
+					break;
+				case "new_contract":
+					newContract();
+					break;
+				case "end_contract":
+					endContract();
+					break;
+				case "begin_contract":
+					beginContract();
+					break;
+				default:
+					console.log("Unhandled intent:", intent);
 			}
 		};
-		updateURL();
-	}, [selectedGhost]);
 
-	const playAudio = (voice) => {
-		if (voice && audioRef.current) {
-			audioRef.current.src = voice;
+		socket.on("nlp", handleNlpResponse);
+
+		return () => {
+			socket.off("nlp", handleNlpResponse);
+		};
+	}, [
+		evidenceData,
+		addObjective,
+		addEvidence,
+		beginContract,
+		completeAnObjective,
+		endContract,
+		newContract,
+		notThisEvidence,
+		unselectEvidence,
+	]);
+
+	useEffect(() => {}, [selectedGhost]);
+
+	const playAudio = () => {
+		if (audioRef.current) {
+			audioRef.current.src = "/audio/coin.mp3";
 			audioRef.current.play();
 		}
 	};
+
+	const processTranscript = useCallback(async (t) => {
+		if (t.toLowerCase().includes("spectra")) {
+			socket.emit("nlp", t.toLowerCase());
+		}
+	}, []);
 
 	const handleResult = useCallback(
 		(event) => {
@@ -86,113 +340,8 @@ const SpectraController = () => {
 				}
 			}
 		},
-		[transcript]
+		[transcript, processTranscript]
 	);
-
-	const processTranscript = async (t) => {
-		console.log("Processing Transcript. Loading State: ", loading);
-
-		if (t.toLowerCase().includes("spectra")) {
-			if (t.toLowerCase().includes("new") && t.toLowerCase().includes("contract")) {
-				setSelectedEvidence([]);
-				const voice = await getAudioFromText(
-					"Sure, I went ahead and reset all of the evidence for you, you are now ready to begin your new contract."
-				);
-				//playAudio(voice);
-				return;
-			}
-
-			console.log("Evidence Data in processTranscript: ", evidenceData);
-
-			const response = getIntent(
-				t.toLowerCase().replace("spectra", "").trim(),
-				evidenceData,
-				objectiveData,
-				currentObjectives
-			);
-
-			const intent = response.intent;
-			const json = response;
-			const voiceResponse = json.response;
-
-			console.log(json);
-
-			if (intent === "add_objective") {
-				setCurrentObjectives((prevObjectives) =>
-					selectObjective(prevObjectives, json.objective)
-				);
-			}
-
-			if (intent === "complete_objective") {
-				setCurrentObjectives((prevObjectives) =>
-					completeObjective(prevObjectives, json.objective)
-				);
-			}
-
-			if (intent === "reset_objective") {
-				setCurrentObjectives([]);
-			}
-
-			if (intent === "select_evidence") {
-				json.evidence.map((evidence) => {
-					console.log(evidence);
-					const locatedEvidence = evidenceData.find(
-						(e) => e.evidenceSlug === evidence.evidenceSlug
-					);
-
-					if (locatedEvidence) {
-						setSelectedEvidence((prevEvidence) =>
-							selectEvidence(prevEvidence, locatedEvidence)
-						);
-					} else {
-						console.log("Could not match evidence.");
-					}
-				});
-			}
-
-			if (intent === "start_contract") {
-				getAudioFromText(json.response);
-			}
-
-			if (intent === "unselect_evidence") {
-				json.evidence.map((evidence) => {
-					console.log(evidence);
-					const locatedEvidence = evidenceData.find(
-						(e) => e.evidenceSlug === evidence.evidenceSlug
-					);
-
-					if (locatedEvidence) {
-						setSelectedEvidence((prevEvidence) =>
-							removeEvidence(prevEvidence, locatedEvidence)
-						);
-
-						getAudioFromText(json.response);
-					} else {
-						console.log("Could not match evidence.");
-					}
-				});
-			}
-
-			if (intent === "not_evidence") {
-				json.evidence.map((evidence) => {
-					const locatedEvidence = evidenceData.find(
-						(e) => e.evidenceSlug === evidence.evidenceSlug
-					);
-
-					if (locatedEvidence) {
-						setSelectedEvidence((prevEvidence) =>
-							notEvidence(prevEvidence, locatedEvidence)
-						);
-
-						getAudioFromText(json.response);
-					}
-				});
-			}
-
-			const voice = await getAudioFromText(voiceResponse);
-			//playAudio(voice);
-		}
-	};
 
 	useEffect(() => {
 		if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
@@ -211,15 +360,12 @@ const SpectraController = () => {
 		};
 
 		recognitionRef.current.onerror = (event) => {
-			//console.error("Speech recognition error:", event.error);
 			if (event.error === "no-speech" || event.error === "audio-capture") {
-				//recognitionRef.current.start();
+				// PASS
 			} else if (event.error === "not-allowed") {
 				setIsSupported(false);
 			}
 		};
-
-		console.log("Component Mounted. Loading State: ", loading);
 
 		return () => {
 			if (recognitionRef.current) {
@@ -231,12 +377,9 @@ const SpectraController = () => {
 		};
 	}, []);
 
-	useEffect(() => {
-		console.log("Loading state updated: ", loading);
-		console.log("Evidence Data updated: ", evidenceData);
-	}, [loading, evidenceData]);
+	useEffect(() => {}, [loading, evidenceData]);
 
-	return !loading ? (
+	return !loading && isSupported ? (
 		<div className="spectra" onClick={toggleListening}>
 			<AiOutlineRobot />
 			<audio ref={audioRef} />

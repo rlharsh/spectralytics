@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import "./css/EvidenceManager.css";
 import { GameDataContext } from "../Providers/GameDataProvider";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import EvidenceTile from "./EvidenceTile";
 import "./css/EvidenceManager.css";
-import { clearAllEvidences, toggleSelectedEvidence } from "../Helpers/updateEvidence";
+import { toggleSelectedEvidence } from "../Helpers/updateEvidence";
 
 const EvidenceManager = () => {
-	const { evidenceData, difficultyData, ghostData, mapData, objectiveData } =
-		useContext(GameDataContext);
+	const { evidenceData } = useContext(GameDataContext);
 
 	const { selectedEvidence, setSelectedEvidence } = useContext(ApplicationContext);
 
