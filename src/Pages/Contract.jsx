@@ -7,6 +7,7 @@ import GameLog from "../Components/GameLog";
 import ContractInformation from "../Components/ContractInformation";
 import MapManager from "../Components/MapManager";
 import DifficultyManager from "../Components/DifficultyManager";
+import MapInformation from "../Components/MapInformation";
 
 const Contract = () => {
 	return (
@@ -20,7 +21,9 @@ const Contract = () => {
 						<CollapsablePanel title="Objectives">
 							<ObjectiveManager />
 						</CollapsablePanel>
-						<CollapsablePanel title="Stats">Not Yet Implemented</CollapsablePanel>
+						<CollapsablePanel title="Map Information">
+							<MapInformation />
+						</CollapsablePanel>
 					</div>
 					<section>
 						<CollapsablePanel title="Ghost Data">

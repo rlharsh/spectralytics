@@ -28,6 +28,7 @@ const MapManager = () => {
 				<div className="map-manager">
 					<p>Select a map from the available options below.</p>
 					<select
+						className="custom-select"
 						name="map"
 						id="map"
 						value={selectedMapId}

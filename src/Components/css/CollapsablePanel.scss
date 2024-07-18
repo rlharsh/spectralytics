@@ -9,10 +9,15 @@
 		padding: 0.4rem 1rem;
 		align-items: center;
 		justify-content: space-between;
-		background-color: var(--ColorAccentedHighlight);
+		background-color: var(--ColorContainerLight);
+		//background-color: var(--ColorAccentedHighlight);
 		display: flex;
 		border: 1px solid var(--ColorOutline);
 		border-radius: var(--BorderRadius);
+
+		h2 {
+			color: var(--ColorAccent);
+		}
 
 		button {
 			max-width: 2rem;
@@ -22,6 +27,7 @@
 			svg {
 				width: 1.2rem;
 				height: 1.2rem;
+				color: var(--ColorAccent);
 			}
 		}
 	}
@@ -30,5 +36,6 @@
 		margin-top: 1rem;
 		border-radius: var(--BorderRadius);
 		background-color: var(--Background);
+		//padding: 0 1rem;
 	}
 }

@@ -5,23 +5,20 @@ function generateUniqueId() {
 }
 
 export function notifyLogsChange() {
-	console.log("We adding now", new Date());
+	//console.log("We adding now", new Date());
 	const event = new Event("eventLogChanged");
 	window.dispatchEvent(event);
 }
 
 export function toggleSelectedEvidence(evidenceData, selectedEvidences, evidence) {
 	if (doesEvidenceExist(selectedEvidences, evidence)) {
-		console.log("Found evidence in selectedEvidences.");
 		return toggleEvidenceState(selectedEvidences, evidence);
 	} else {
-		console.log("Could not find evidence in selectedEvidences.");
 		return addEvidence(selectedEvidences, evidence);
 	}
 }
 
 export function addEvidence(evidenceData, evidence) {
-	console.log("Adding evidence: ", evidence);
 	return [
 		...evidenceData,
 		{
@@ -40,7 +37,6 @@ function toggleEvidenceState(evidenceData, evidence) {
 	} else if (evidenceInformation.selectedState === 2) {
 		updatedEvidence.splice(existingIndex, 1);
 	}
-	//notifyLogsChange();
 	return updatedEvidence;
 }
 
@@ -56,19 +52,12 @@ export function removeEvidence(evidenceData, evidence) {
 	return updatedEvidence;
 }
 
-export function selectEvidence(evidenceData, evidence, logData) {
+export function selectEvidence(evidenceData, evidence) {
 	const updatedEvidence = [...evidenceData];
 	const evidenceInformation = updatedEvidence.find((e) => e.id === evidence.id);
-	const existingIndex = updatedEvidence.findIndex((e) => e.id === evidence.id);
+	//const existingIndex = updatedEvidence.findIndex((e) => e.id === evidence.id);
 
 	if (evidenceInformation) {
-		/*
-		eventLog.push({
-			...logData,
-			type: "Evidence",
-			description: `User updated evidence ${evidence.name}.`,
-		});
-		*/
 		//notifyLogsChange();
 		return evidenceData;
 	} else {
@@ -79,19 +68,17 @@ export function selectEvidence(evidenceData, evidence, logData) {
 				selectedState: 1,
 			},
 		];
-		//notifyLogsChange();
 		return newEvidence;
 	}
 }
 
-export function notEvidence(evidenceData, evidence, logData) {
+export function notEvidence(evidenceData, evidence) {
 	const updatedEvidence = [...evidenceData];
 	const evidenceInformation = updatedEvidence.find((e) => e.id === evidence.id);
 	const existingIndex = updatedEvidence.findIndex((e) => e.id === evidence.id);
 
 	if (evidenceInformation) {
 		updatedEvidence[existingIndex].selectedState = 2;
-		//notifyLogsChange();
 	} else {
 		const newEvidence = [
 			...evidenceData,
@@ -100,12 +87,6 @@ export function notEvidence(evidenceData, evidence, logData) {
 				selectedState: 2,
 			},
 		];
-		eventLog.push({
-			...logData,
-			type: "Evidence",
-			description: `User has ruled out ${evidence.name}`,
-		});
-		//notifyLogsChange();
 		return newEvidence;
 	}
 
@@ -119,7 +100,6 @@ function doesEvidenceExist(evidenceData, evidence) {
 export function clearAllEvidences(evidenceData) {
 	let updatedEvidence = [...evidenceData];
 	updatedEvidence = [];
-	//notifyLogsChange();
 	return updatedEvidence;
 }
 
@@ -138,7 +118,7 @@ export const formatDateTime = (date) => {
 		hour: "2-digit",
 		minute: "2-digit",
 		second: "2-digit",
-		hour12: false, // Use 24-hour format
+		hour12: false,
 	};
 	return new Intl.DateTimeFormat("en-US", options).format(date);
 };

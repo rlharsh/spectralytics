@@ -31,45 +31,47 @@
 }
 
 .dark-theme {
-	--Background: #1d2228;
-	--ColorContainer: #1d2228;
-	--ColorContainerLight: #20262e;
-	--ColorText: #cccccc;
-	--ColorGrey: #414959;
+	--Background: #2b3339; // Everforest Dark bg0
+	--ColorContainer: #323c41; // Everforest Dark bg1
+	--ColorContainerLight: #3a454a; // Everforest Dark bg2
+	--ColorText: #d3c6aa; // Everforest Dark fg
+	--ColorGrey: #7a8478; // Everforest Dark grey1
 	--FontSizeNormal: 14px;
 	--FontWeightNormal: 400;
-	//--Shadow: rgba(0, 0, 0, 0.35) 0px 5px 8px;
-	--ColorBlue: #3999ec;
-	--ColorAccent: #fff;
-	--ColorAccentOff: #f8f8f8;
-	--ColorOutline: #323842;
-	--ColorAccentTwo: #7a383876;
-	--ColorTextHighlight: #fff;
-	--ColorSolidRed: #e583d0;
-	--ColorSolidGreen: #30fba0;
-	--ColorGreen: #223537;
-	--ColorRed: #392836;
-	--ColorAccentedContainer: #20262e;
+	--ColorBlue: #7fbbb3; // Everforest Dark blue
+	--ColorAccent: #a7c080; // Everforest Dark green
+	--ColorAccentOff: #d699b6; // Everforest Dark purple
+	--ColorOutline: #475258; // Everforest Dark bg3
+	--ColorAccentTwo: #e67e80; // Everforest Dark red
+	--ColorTextHighlight: #d3c6aa; // Everforest Dark fg
+	--ColorSolidRed: #e67e80; // Everforest Dark red
+	--ColorSolidGreen: #a7c080; // Everforest Dark green
+	--ColorGreen: #3d484d; // Slightly darker than bg1 for subtle green backgrounds
+	--ColorRed: #442e2e; // Custom dark red for subtle red backgrounds
+	--ColorAccentedContainer: #475258; // Everforest Dark bg2
+	--ColorAccentedHighlight: #475258; // Everforest Dark bg3
 }
 
 .light-theme {
-	//--Shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-	--Background: #fafaf9;
-	--ColorContainer: #ffffff;
-	--ColorContainerLight: #fff;
-	--ColorText: #000000;
-	--ColorGrey: #f5f5f4;
-	--ColorBlue: #175796;
-	--ColorAccent: #5b5b5b;
-	--ColorAccentOff: #222;
-	--ColorOutline: #ccc;
-	--ColorAccentTwo: #ffa;
-	--ColorSolidRed: #b11c91;
-	--ColorSolidGreen: #00884b;
-	--ColorGreen: #00c15d1c;
-	--ColorRed: #5b20500f;
-	--ColorTextHighlight: #000;
-	--ColorAccentedContainer: #28313e;
+	--Background: #fdf6e3; // Everforest Light bg0
+	--ColorContainer: #f3efda; // Everforest Light bg1
+	--ColorContainerLight: #fdf6e3; // Everforest Light bg0
+	--ColorText: #5c6a72; // Everforest Light fg
+	--ColorGrey: #939f91; // Everforest Light grey1
+	--FontSizeNormal: 14px;
+	--FontWeightNormal: 400;
+	--ColorBlue: #3a94c5; // Everforest Light blue
+	--ColorAccent: #8da101; // Everforest Light green
+	--ColorAccentOff: #945e80; // Everforest Light purple
+	--ColorOutline: #d3c6aa; // Everforest Light bg5
+	--ColorAccentTwo: #df69ba; // Everforest Light pink
+	--ColorTextHighlight: #3c4841; // Everforest Light bg5
+	--ColorSolidRed: #f85552; // Everforest Light red
+	--ColorSolidGreen: #8da101; // Everforest Light green
+	--ColorGreen: #e9e8d2; // Slightly lighter than bg1 for subtle green backgrounds
+	--ColorRed: #f6ece4; // Slightly lighter than bg1 for subtle red backgrounds
+	--ColorAccentedContainer: #f3efda; // Everforest Light bg1
+	--ColorAccentedHighlight: #efebd4; // Custom (slightly darker than bg1)
 }
 
 body {
@@ -103,7 +105,7 @@ a {
 
 .page-container {
 	padding: 1rem 1rem;
-	background-color: var(--ColorContainer);
+	//background-color: var(--ColorContainer);
 
 	@include breakpoint(min, 1224px) {
 		margin-left: 18rem;
@@ -225,6 +227,12 @@ h2 {
 	font-weight: 700;
 }
 
+h3 {
+	font-size: 16;
+	color: var(--ColorTextHighlight);
+	font-weight: 700;
+}
+
 .color-accent {
 	color: var(--ColorAccentTwo);
 }
@@ -304,6 +312,7 @@ input[type="text"] {
 
 .strikethrough {
 	text-decoration: line-through;
+	color: var(--ColorAccent);
 }
 
 .centered {
@@ -320,4 +329,57 @@ input[type="checkbox"] {
 	width: 2rem;
 	height: 2rem;
 	padding: 0;
+}
+
+/* Custom styles for the select element */
+.custom-select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-color: var(--ColorAccentedContainer);
+	color: var(--ColorAccent);
+	font-weight: 700;
+	border: 1px solid var(--ColorOutline);
+	padding: 8px 16px;
+	border-radius: 4px;
+	width: 100%;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+/* Style for the dropdown arrow */
+.custom-select-wrapper {
+	position: relative;
+}
+
+/* Style for the button */
+button {
+	background-color: var(--ColorBlue);
+	color: var(--ColorTextHighlight);
+	//border: none;
+	padding: 8px 16px;
+	border-radius: var(--BorderRadius);
+	cursor: pointer;
+	font-size: 16px;
+	margin-left: 10px;
+
+	&:hover {
+		color: var(--ColorAccent) !important;
+		svg {
+			color: var(--ColorAccent) !important;
+		}
+	}
+
+	svg {
+		color: var(--ColorContainer) !important;
+	}
+}
+
+button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+	background-color: var(--ColorAccentedHighlight);
 }

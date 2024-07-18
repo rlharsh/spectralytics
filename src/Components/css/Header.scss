@@ -1,13 +1,14 @@
 @import "../../../node_modules/gerillass/scss/gerillass";
 
 .header {
-	padding: 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	position: relative;
-	background-color: var(--ColorAccentedHighlight);
+	background-color: var(--ColorContainerLight);
 	user-select: none;
+	padding: 1rem;
+	z-index: 100;
 
 	@include breakpoint(min, 1224px) {
 		border-radius: var(--BorderRadius);
@@ -34,8 +35,8 @@
 
 		svg {
 			color: var(--ColorBlue);
-			width: 1.8rem;
-			height: 1.8rem;
+			width: 2.2rem;
+			height: 2.2rem;
 		}
 	}
 
@@ -52,7 +53,7 @@
 
 		display: flex;
 		flex-direction: column;
-		background-color: var(--ColorAccentedHighlight);
+		background-color: var(--ColorContainerLight);
 		border: 1px solid var(--ColorOutline);
 		color: var(--ColorText);
 

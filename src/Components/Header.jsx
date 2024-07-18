@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import "./css/Header.css";
 import { useMediaQuery } from "react-responsive";
-import { TbDeviceAnalytics } from "react-icons/tb";
+import { TbGhost2Filled } from "react-icons/tb";
 import { Button } from "@chakra-ui/react";
 import MenuButton from "./MenuButton";
 import Avatar from "./Avatar";
@@ -105,7 +105,7 @@ const Header = () => {
 	return (
 		<header className="header">
 			<section className="header__branding">
-				<TbDeviceAnalytics />
+				<TbGhost2Filled />
 				<h1>SPECTRALYTICS</h1>
 			</section>
 			{isTabletOrMobile && (

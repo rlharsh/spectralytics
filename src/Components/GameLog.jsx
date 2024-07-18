@@ -8,24 +8,38 @@ import { ApplicationContext } from "../Providers/ApplicationProvider";
 const GameLog = () => {
 	const { gameLogs } = useContext(ApplicationContext);
 
+	const formatDateTime = (params) => {
+		if (params.value) {
+			const date = new Date(params.value);
+			return date.toLocaleString();
+		}
+		return "";
+	};
+
+	const capitalizeWords = (params) => {
+		if (params.value) {
+			return params.value
+				.split(" ")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+				.join(" ");
+		}
+		return "";
+	};
+
 	const colDefs = [
-		{ field: "time", headerName: "Time", flex: 1 },
-		{ field: "type", headerName: "Status", flex: 1 },
-		{ field: "location", headerName: "Location", flex: 1 },
-		{ field: "evidence", headerName: "Evidence", flex: 1 },
+		{ field: "time", headerName: "Time", flex: 1, valueFormatter: formatDateTime },
+		{ field: "type", headerName: "Type", flex: 1 },
+		{ field: "status", headerName: "Status", flex: 1 },
+		{ field: "sender", headerName: "Sender", flex: 1 },
+		{
+			field: "location",
+			headerName: "Location",
+			flex: 1,
+			valueFormatter: capitalizeWords,
+		},
+		{ field: "evidence", headerName: "Evidence", flex: 1, hide: true },
 		{ field: "description", headerName: "Description", flex: 1 },
 	];
-
-	const autoSizeStrategy = {
-		type: "fitGridWidth",
-		defaultMinWidth: 100,
-		columnLimits: [
-			{
-				colId: "country",
-				minWidth: 900,
-			},
-		],
-	};
 
 	return (
 		<div className="game-log__container">
@@ -35,11 +49,7 @@ const GameLog = () => {
 					className="ag-theme-quartz-auto-dark"
 					style={{ width: "100%", height: "100%" }}
 				>
-					<AgGridReact
-						autoSizeStrategy={autoSizeStrategy}
-						rowData={gameLogs}
-						columnDefs={colDefs}
-					/>
+					<AgGridReact rowData={gameLogs} columnDefs={colDefs} />
 				</div>
 			</div>
 		</div>

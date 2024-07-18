@@ -4,13 +4,18 @@ import "./css/CenterModal.css";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 
 const CenterModal = ({ title, children }) => {
-	const { setSocketShowing, setMapModalShowing, setDifficultyModalShowing } =
-		useContext(ApplicationContext);
+	const {
+		setSocketShowing,
+		setMapModalShowing,
+		setObjectiveModalShowing,
+		setDifficultyModalShowing,
+	} = useContext(ApplicationContext);
 
 	const handleBackdropClick = () => {
 		setSocketShowing(false);
 		setMapModalShowing(false);
 		setDifficultyModalShowing(false);
+		setObjectiveModalShowing(false);
 	};
 
 	const handleContentClick = (e) => {
@@ -24,6 +29,7 @@ const CenterModal = ({ title, children }) => {
 					<h1>{title}</h1>
 				</div>
 				{children}
+				<button onClick={handleBackdropClick}>Close</button>
 			</div>
 		</div>
 	);

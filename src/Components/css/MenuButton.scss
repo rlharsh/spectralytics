@@ -20,9 +20,13 @@
 	&:hover {
 		background-color: var(--Background);
 		color: var(--ColorBlue);
+		outline: 1px solid var(--ColorAccent);
 
+		p {
+			//font-weight: 700;
+		}
 		svg {
-			color: #fff;
+			//color: #fff;
 		}
 	}
 }

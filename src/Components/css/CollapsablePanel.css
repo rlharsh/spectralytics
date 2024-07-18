@@ -8,10 +8,13 @@
   padding: 0.4rem 1rem;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--ColorAccentedHighlight);
+  background-color: var(--ColorContainerLight);
   display: flex;
   border: 1px solid var(--ColorOutline);
   border-radius: var(--BorderRadius);
+}
+.collapsable-panel__header h2 {
+  color: var(--ColorAccent);
 }
 .collapsable-panel__header button {
   max-width: 2rem;
@@ -21,6 +24,7 @@
 .collapsable-panel__header button svg {
   width: 1.2rem;
   height: 1.2rem;
+  color: var(--ColorAccent);
 }
 .collapsable-panel__content {
   margin-top: 1rem;

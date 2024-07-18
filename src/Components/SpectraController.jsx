@@ -33,6 +33,8 @@ const SpectraController = () => {
 		setElapsedTime,
 		updateGameLog,
 		gameLogs,
+		selectedMap,
+		selectedEvidence,
 	} = useContext(ApplicationContext);
 	const { evidenceData, loading, objectiveData, writeGameLog } =
 		useContext(GameDataContext);
@@ -54,30 +56,31 @@ const SpectraController = () => {
 
 			console.log("Adding evidence:", e);
 			const locatedEvidence = evidenceData.find((ev) => ev.evidenceSlug === e);
+			const evidenceExists = selectedEvidence.find((ev) => ev.evidenceSlug === e);
+
+			let newLog = {
+				time: new Date(),
+				type: "Evidence",
+				status: evidenceExists ? "Updated" : "Added",
+				sender: "Spectra",
+				location: l,
+				evidence: locatedEvidence.name,
+				description: evidenceExists
+					? `${locatedEvidence.name} was updated by the player.`
+					: `${locatedEvidence.name} was located by the player.`,
+			};
 
 			if (locatedEvidence) {
 				console.log(`${e} is a confirmed match.`);
 				setSelectedEvidence((prevEvidence) =>
-					selectEvidence(prevEvidence, locatedEvidence, {
-						time: new Date(),
-						location: l,
-						evidence: locatedEvidence.name,
-						type: "Evidence",
-						description: `Updated evidence ${locatedEvidence.name}`,
-					})
+					selectEvidence(prevEvidence, locatedEvidence)
 				);
-				updateGameLog({
-					time: new Date(),
-					location: l,
-					evidence: locatedEvidence.name,
-					type: "Evidence",
-					description: `Updated evidence ${locatedEvidence.name}`,
-				});
+				updateGameLog(newLog);
 			} else {
 				console.log(`Unable to find a match for ${e}.`);
 			}
 		},
-		[evidenceData, contractTimer, setSelectedEvidence, updateGameLog]
+		[evidenceData, contractTimer, setSelectedEvidence, updateGameLog, selectedEvidence]
 	);
 
 	const unselectEvidence = useCallback(
@@ -103,18 +106,16 @@ const SpectraController = () => {
 
 			if (locatedEvidence) {
 				setSelectedEvidence((prevEvidence) =>
-					notEvidence(prevEvidence, locatedEvidence, {
-						time: new Date(),
-						location: "N/A",
-						evidence: locatedEvidence.name,
-					})
+					notEvidence(prevEvidence, locatedEvidence)
 				);
 				updateGameLog({
 					time: new Date(),
-					location: "N/A",
+					type: "Evidence",
+					status: "Dismissed",
+					sender: "Spectra",
+					location: "Not Applicable",
 					evidence: locatedEvidence.name,
-					type: "Evidence Dismissed",
-					description: `User has ruled out ${locatedEvidence.name} as evidence.`,
+					description: `${locatedEvidence.name} was ruled out as evidence by the player.`,
 				});
 			} else {
 				console.log(`Could not find evidence: ${e}`);
@@ -133,10 +134,12 @@ const SpectraController = () => {
 				);
 				updateGameLog({
 					time: new Date(),
-					location: "N/A",
-					evidence: "N/A",
-					type: "Objective Added",
-					description: locatedObjective.name,
+					type: "Objective",
+					status: "Added",
+					sender: "Spectra",
+					location: "Not Applicable",
+					evidence: "Not Applicable",
+					description: `${locatedObjective.name}, was added by the player.`,
 				});
 			}
 		},
@@ -145,6 +148,7 @@ const SpectraController = () => {
 
 	const completeAnObjective = useCallback(
 		(e, l) => {
+			console.log(e, l);
 			if (!contractTimer.current) return;
 
 			console.log("Event received:", e);
@@ -158,10 +162,12 @@ const SpectraController = () => {
 				);
 				updateGameLog({
 					time: new Date(),
-					location: l ? l : "N/A",
-					evidence: "N/A",
 					type: "Objective",
-					description: locatedObjective.name,
+					status: "Completed",
+					sender: "Spectra",
+					location: e === "bone" ? l : "Not Applicable",
+					evidence: e === "bone" ? "Bone" : "Not Applicable",
+					description: `${locatedObjective.name}, was completed by the player.`,
 				});
 			} else {
 				console.warn("Objective not found for slug:", e);
@@ -179,10 +185,12 @@ const SpectraController = () => {
 		}
 		updateGameLog({
 			time: new Date(),
-			location: "N/A",
-			evidence: "N/A",
-			type: "Objective",
-			description: "User has ended the contract.",
+			type: "Contract",
+			status: "Completed",
+			sender: "Spectra",
+			location: selectedMap.mapName,
+			evidence: "Not Applicable",
+			description: `Player has completed contract at ${selectedMap.mapName}.`,
 		});
 		setStartTime(null);
 
@@ -200,10 +208,10 @@ const SpectraController = () => {
 			duration: elapsedTime,
 			evidenceLogs: gameLogs.filter((event) => event.type === "Evidence"),
 			objectiveLogs: gameLogs.filter((event) => event.type === "Objective"),
+			contractLogs: gameLogs.filter((event) => event.type === "Contract"),
 		};
 
 		await writeGameLog(contractData);
-		console.log("Finished");
 	}, [
 		contractTimer,
 		elapsedTime,
@@ -215,18 +223,20 @@ const SpectraController = () => {
 		selectedGhost,
 		gameLogs,
 		updateGameLog,
+		selectedMap,
 	]);
 
 	const beginContract = useCallback(async () => {
 		setStartTime(new Date());
 		updateGameLog({
 			time: new Date(),
-			location: "N/A",
-			evidence: "N/A",
-			type: "Contract Start",
-			description: "User has begun the contract.",
+			type: "Contract",
+			status: "Started",
+			location: selectedMap.mapName,
+			evidence: "Not Applicable",
+			description: `Player has started contract at ${selectedMap.mapName}.`,
 		});
-	}, [setStartTime, updateGameLog]);
+	}, [setStartTime, updateGameLog, selectedMap]);
 
 	useEffect(() => {
 		if (startTime) {
@@ -251,14 +261,88 @@ const SpectraController = () => {
 		};
 	}, [startTime, setElapsedTime]);
 
+	const handleToggleKeyResponse = useCallback(
+		(key) => {
+			if (key.includes("not-")) {
+				if (evidenceData.length > 0) {
+					const newKey = key.replace("not-", "");
+					const locatedEvidence = evidenceData.find((ev) => ev.evidenceSlug === newKey);
+
+					if (locatedEvidence) {
+						setSelectedEvidence((prevEvidence) =>
+							notEvidence(prevEvidence, locatedEvidence)
+						);
+						updateGameLog({
+							time: new Date(),
+							type: "Evidence",
+							status: "Dismissed",
+							sender: "Companion Application",
+							location: "Not Applicable",
+							evidence: locatedEvidence.name,
+							description: `${locatedEvidence.name}, was removed by the player.`,
+						});
+					}
+				}
+				return;
+			}
+
+			if (evidenceData.length > 0) {
+				const locatedEvidence = evidenceData.find((ev) => ev.evidenceSlug === key);
+
+				if (locatedEvidence) {
+					setSelectedEvidence((prevEvidence) => {
+						const existingIndex = prevEvidence.findIndex(
+							(pe) => pe.id === locatedEvidence.id
+						);
+
+						if (existingIndex !== -1) {
+							const updatedEvidence = [...prevEvidence];
+							updatedEvidence.splice(existingIndex, 1);
+							updateGameLog({
+								time: new Date(),
+								type: "Evidence",
+								status: "Removed",
+								sender: "Companion Application",
+								location: "Not Applicable",
+								evidence: locatedEvidence.name,
+								description: `${locatedEvidence.name}, was removed by the player.`,
+							});
+							return updatedEvidence;
+						} else {
+							updateGameLog({
+								time: new Date(),
+								type: "Evidence",
+								status: "Added",
+								sender: "Companion Application",
+								location: "Not Applicable",
+								evidence: locatedEvidence.name,
+								description: `${locatedEvidence.name}, was added by the player.`,
+							});
+							return [
+								...prevEvidence,
+								{
+									...locatedEvidence,
+									selectedState: 1,
+								},
+							];
+						}
+					});
+				} else {
+					console.log("Could not log: ", key);
+				}
+			}
+		},
+		[evidenceData, updateGameLog, setSelectedEvidence]
+	);
+
 	useEffect(() => {
 		const handleNlpResponse = (responseData) => {
+			console.log(responseData);
 			const json = JSON.parse(responseData);
 			const intent = json.intent;
 			const evidence = json.evidence;
 			const location = json.location;
 			const objective = json.objectives;
-			playAudio();
 
 			switch (intent) {
 				case "select_evidence":
@@ -277,7 +361,9 @@ const SpectraController = () => {
 					objective.forEach((e) => completeAnObjective(e, location));
 					break;
 				case "new_contract":
-					newContract();
+					if (contractTimer.current === null) {
+						newContract();
+					}
 					break;
 				case "end_contract":
 					endContract();
@@ -288,12 +374,17 @@ const SpectraController = () => {
 				default:
 					console.log("Unhandled intent:", intent);
 			}
+
+			playAudio();
 		};
+
+		socket.on("toggleKey", handleToggleKeyResponse);
 
 		socket.on("nlp", handleNlpResponse);
 
 		return () => {
 			socket.off("nlp", handleNlpResponse);
+			socket.off("toggleKey", handleToggleKeyResponse);
 		};
 	}, [
 		evidenceData,
@@ -305,6 +396,7 @@ const SpectraController = () => {
 		newContract,
 		notThisEvidence,
 		unselectEvidence,
+		handleToggleKeyResponse,
 	]);
 
 	useEffect(() => {}, [selectedGhost]);

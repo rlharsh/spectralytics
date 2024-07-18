@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import CenterModal from "./CenterModal";
 import "./css/ObjectiveTile.css";
+import { IoIosInformationCircle } from "react-icons/io";
 
-const ObjectiveTile = ({ objective, click, selected }) => {
+const ObjectiveTile = ({ objective, click, selected, modalClick }) => {
 	const [isChecked, setIsChecked] = useState(selected);
 
 	useEffect(() => {
@@ -12,6 +14,8 @@ const ObjectiveTile = ({ objective, click, selected }) => {
 	const handleChange = () => {
 		click(objective);
 	};
+
+	console.log(objective);
 
 	return (
 		<div className="objective-tile">
@@ -35,6 +39,11 @@ const ObjectiveTile = ({ objective, click, selected }) => {
 				) : (
 					<p className="strikethrough">{objective.name}</p>
 				)}
+			</div>
+			<div className="objective-tile__right">
+				<button onClick={() => modalClick(objective)}>
+					<IoIosInformationCircle />
+				</button>
 			</div>
 		</div>
 	);

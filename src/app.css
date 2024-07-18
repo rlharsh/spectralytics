@@ -26,43 +26,47 @@
 }
 
 .dark-theme {
-  --Background: #1d2228;
-  --ColorContainer: #1d2228;
-  --ColorContainerLight: #20262e;
-  --ColorText: #cccccc;
-  --ColorGrey: #414959;
+  --Background: #2b3339;
+  --ColorContainer: #323c41;
+  --ColorContainerLight: #3a454a;
+  --ColorText: #d3c6aa;
+  --ColorGrey: #7a8478;
   --FontSizeNormal: 14px;
   --FontWeightNormal: 400;
-  --ColorBlue: #3999ec;
-  --ColorAccent: #fff;
-  --ColorAccentOff: #f8f8f8;
-  --ColorOutline: #323842;
-  --ColorAccentTwo: #7a383876;
-  --ColorTextHighlight: #fff;
-  --ColorSolidRed: #e583d0;
-  --ColorSolidGreen: #30fba0;
-  --ColorGreen: #223537;
-  --ColorRed: #392836;
-  --ColorAccentedContainer: #20262e;
+  --ColorBlue: #7fbbb3;
+  --ColorAccent: #a7c080;
+  --ColorAccentOff: #d699b6;
+  --ColorOutline: #475258;
+  --ColorAccentTwo: #e67e80;
+  --ColorTextHighlight: #d3c6aa;
+  --ColorSolidRed: #e67e80;
+  --ColorSolidGreen: #a7c080;
+  --ColorGreen: #3d484d;
+  --ColorRed: #442e2e;
+  --ColorAccentedContainer: #475258;
+  --ColorAccentedHighlight: #475258;
 }
 
 .light-theme {
-  --Background: #fafaf9;
-  --ColorContainer: #ffffff;
-  --ColorContainerLight: #fff;
-  --ColorText: #000000;
-  --ColorGrey: #f5f5f4;
-  --ColorBlue: #175796;
-  --ColorAccent: #5b5b5b;
-  --ColorAccentOff: #222;
-  --ColorOutline: #ccc;
-  --ColorAccentTwo: #ffa;
-  --ColorSolidRed: #b11c91;
-  --ColorSolidGreen: #00884b;
-  --ColorGreen: #00c15d1c;
-  --ColorRed: #5b20500f;
-  --ColorTextHighlight: #000;
-  --ColorAccentedContainer: #28313e;
+  --Background: #fdf6e3;
+  --ColorContainer: #f3efda;
+  --ColorContainerLight: #fdf6e3;
+  --ColorText: #5c6a72;
+  --ColorGrey: #939f91;
+  --FontSizeNormal: 14px;
+  --FontWeightNormal: 400;
+  --ColorBlue: #3a94c5;
+  --ColorAccent: #8da101;
+  --ColorAccentOff: #945e80;
+  --ColorOutline: #d3c6aa;
+  --ColorAccentTwo: #df69ba;
+  --ColorTextHighlight: #3c4841;
+  --ColorSolidRed: #f85552;
+  --ColorSolidGreen: #8da101;
+  --ColorGreen: #e9e8d2;
+  --ColorRed: #f6ece4;
+  --ColorAccentedContainer: #f3efda;
+  --ColorAccentedHighlight: #efebd4;
 }
 
 body {
@@ -97,7 +101,6 @@ a {
 
 .page-container {
   padding: 1rem 1rem;
-  background-color: var(--ColorContainer);
 }
 @media (min-width: 1224px) {
   .page-container {
@@ -216,6 +219,12 @@ h2 {
   font-weight: 700;
 }
 
+h3 {
+  font-size: 16;
+  color: var(--ColorTextHighlight);
+  font-weight: 700;
+}
+
 .color-accent {
   color: var(--ColorAccentTwo);
 }
@@ -294,6 +303,7 @@ input[type=text] {
 
 .strikethrough {
   text-decoration: line-through;
+  color: var(--ColorAccent);
 }
 
 .centered {
@@ -310,4 +320,54 @@ input[type=checkbox] {
   width: 2rem;
   height: 2rem;
   padding: 0;
+}
+
+/* Custom styles for the select element */
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--ColorAccentedContainer);
+  color: var(--ColorAccent);
+  font-weight: 700;
+  border: 1px solid var(--ColorOutline);
+  padding: 8px 16px;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Style for the dropdown arrow */
+.custom-select-wrapper {
+  position: relative;
+}
+
+/* Style for the button */
+button {
+  background-color: var(--ColorBlue);
+  color: var(--ColorTextHighlight);
+  padding: 8px 16px;
+  border-radius: var(--BorderRadius);
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+button:hover {
+  color: var(--ColorAccent) !important;
+}
+button:hover svg {
+  color: var(--ColorAccent) !important;
+}
+button svg {
+  color: var(--ColorContainer) !important;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--ColorAccentedHighlight);
 }

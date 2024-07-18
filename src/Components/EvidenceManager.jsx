@@ -21,15 +21,19 @@ const EvidenceManager = () => {
 		setSelectedEvidence([]);
 	};
 
+	let count = 0;
+
 	return (
 		<div className="evidence-container">
 			{evidenceData.length > 0 &&
 				evidenceData.map((item) => {
+					count++;
 					const existingEvidence = selectedEvidence.find((e) => e.id === item.id);
 					const selectedState = existingEvidence ? existingEvidence.selectedState : 0;
 
 					return (
 						<EvidenceTile
+							count={count}
 							key={item.id}
 							evidence={item}
 							selected={selectedState}

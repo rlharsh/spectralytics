@@ -1,0 +1,41 @@
+.map-info-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.map-info-container {
+  width: 100%;
+}
+
+.room-item {
+  -moz-column-break-inside: avoid;
+       break-inside: avoid-column;
+  margin-bottom: 8px;
+  color: var(--ColorText);
+  text-transform: capitalize;
+}
+
+.room-list {
+  -moz-column-width: 120px;
+       column-width: 120px;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  max-height: 150px;
+  overflow: auto;
+}
+@media (min-width: 1224px) {
+  .room-list {
+    -moz-column-width: 150px;
+         column-width: 150px;
+    -moz-column-gap: 20px;
+         column-gap: 20px;
+    max-height: 380px;
+    overflow: auto;
+  }
+}
+
+.map-info-title {
+  color: var(--ColorAccent);
+  margin-bottom: 16px;
+}

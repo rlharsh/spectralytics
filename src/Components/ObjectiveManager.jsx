@@ -3,15 +3,19 @@ import "./css/ObjectiveManager.css";
 import { GameDataContext } from "../Providers/GameDataProvider";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import ObjectiveTile from "./ObjectiveTile";
-import {
-	completeObjective,
-	selectObjective,
-	unselectObjective,
-} from "../Helpers/updateObjectives";
+import { completeObjective, unselectObjective } from "../Helpers/updateObjectives";
+import CenterModal from "./CenterModal";
 
 const ObjectiveManager = () => {
 	const { objectiveData } = useContext(GameDataContext);
-	const { currentObjectives, setCurrentObjectives } = useContext(ApplicationContext);
+	const {
+		currentObjectives,
+		setCurrentObjectives,
+		objectiveModalShowing,
+		setObjectiveModalShowing,
+		setSelectedObjective,
+		selectedObjective,
+	} = useContext(ApplicationContext);
 
 	const handleObjectiveClick = (objective) => {
 		const objectiveData = currentObjectives.find((e) => e.id === objective.id) ?? null;
@@ -29,7 +33,7 @@ const ObjectiveManager = () => {
 		} else {
 			if (currentObjectives.length !== 4) {
 				setCurrentObjectives((prevObjectives) =>
-					selectObjective(prevObjectives, objective)
+					setSelectedObjective(prevObjectives, objective)
 				);
 			}
 		}
@@ -51,12 +55,31 @@ const ObjectiveManager = () => {
 		]);
 	};
 
+	const handleModal = (objective) => {
+		setSelectedObjective(objective);
+		setObjectiveModalShowing(true);
+	};
+
 	return (
 		<div className="objective-wrapper">
 			{currentObjectives.length !== 4 ? (
 				<>
+					{objectiveModalShowing && selectedObjective && (
+						<CenterModal title="Objective Information">
+							<p>{selectedObjective?.name}</p>
+							<p>{selectedObjective?.strategy}</p>
+							{selectedObjective?.notes.length > 0 && (
+								<ul>
+									{selectedObjective?.notes.map((note) => (
+										<li key={note}>{note}</li>
+									))}
+								</ul>
+							)}
+						</CenterModal>
+					)}
 					{objectiveData.map((objective) => (
 						<ObjectiveTile
+							modalClick={(objective) => handleModal(objective)}
 							key={objective.id}
 							objective={objective}
 							click={() => handleObjectiveClick(objective)}

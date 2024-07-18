@@ -8,7 +8,7 @@ import { TfiLayoutGrid2 } from "react-icons/tfi";
 import PropTypes from "prop-types";
 import "./css/EvidenceTile.css";
 
-const EvidenceTile = ({ evidence, selected, onClick }) => {
+const EvidenceTile = ({ evidence, selected, onClick, count }) => {
 	let className = "evidence-tile";
 
 	if (selected === 1) {
@@ -45,7 +45,10 @@ const EvidenceTile = ({ evidence, selected, onClick }) => {
 
 	return (
 		<div className={className} onClick={() => onClick()}>
-			{icon}
+			<div className="flex-row">
+				{count}
+				{icon}
+			</div>
 			{evidence.name}
 		</div>
 	);
@@ -55,6 +58,7 @@ EvidenceTile.propTypes = {
 	evidence: PropTypes.object.isRequired,
 	selected: PropTypes.number.isRequired,
 	onClick: PropTypes.func.isRequired,
+	count: PropTypes.number.isRequired,
 };
 
 export default EvidenceTile;

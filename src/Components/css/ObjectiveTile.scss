@@ -3,11 +3,16 @@
 	cursor: pointer;
 	display: flex;
 	gap: 0.4rem;
-
-	color: #fff;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center;
+	border: 1px solid transparent;
+	border-radius: var(--BorderRadius);
+	padding: 0.2rem;
 
 	&:hover {
 		color: var(--ColorBlue);
+		border: 1px solid var(--ColorAccent);
 	}
 
 	label {
@@ -20,5 +25,19 @@
 		display: flex;
 		gap: 0.4rem;
 		align-items: center;
+	}
+
+	&__right {
+		button {
+			max-width: 2rem;
+			max-height: 2rem;
+			padding: 0.2rem;
+
+			svg {
+				width: 1.2rem;
+				height: 1.2rem;
+				color: var(--ColorAccent);
+			}
+		}
 	}
 }

@@ -5,7 +5,7 @@ import "./css/SocketManager.css";
 import socket, { uuid } from "../Helpers/socket";
 
 const SocketManager = () => {
-	const { socketShowing, setSocketShowing, setUserId, setConnectedUsers } =
+	const { socketShowing, setUserId, setConnectedUsers } =
 		useContext(ApplicationContext);
 
 	useEffect(() => {
@@ -14,12 +14,12 @@ const SocketManager = () => {
 		if (storedUserId) {
 			setUserId(storedUserId);
 			socket.emit("joinRoom", uuid);
-		} else {
-			socket.on("userId", (id) => {
-				localStorage.setItem("userId", id);
-				setUserId(id);
-			});
 		}
+
+		socket.on("roomConnected", (id) => {
+			localStorage.setItem("userId", id);
+			setUserId(id);
+		});
 
 		socket.on("connectedUsers", (users) => {
 			setConnectedUsers(users);
@@ -40,7 +40,7 @@ const SocketManager = () => {
 		return () => {
 			socket.off("speechResult");
 		};
-	}, [setConnectedUsers, setUserId]);
+	}, []);
 
 	return (
 		<React.Fragment>
@@ -62,20 +62,8 @@ const SocketManager = () => {
 								value={uuid}
 							/>
 							<button>Copy</button>
-							<button className="highlight" onClick={() => setSocketShowing(false)}>
-								Close
-							</button>
 						</div>
 					</div>
-					<audio
-						key={
-							audioBuffer
-								? URL.createObjectURL(new Blob([audioBuffer], { type: "audio/mpeg" }))
-								: ""
-						}
-						ref={audioRef}
-						controls={false}
-					/>
 				</CenterModal>
 			)}
 		</React.Fragment>

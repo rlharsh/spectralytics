@@ -25,6 +25,7 @@ const ApplicationProvider = ({ children }) => {
 	]);
 	const [difficultyModalShowing, setDifficultyModalShowing] = useState(false);
 	const [mapModalShowing, setMapModalShowing] = useState(false);
+	const [objectiveModalShowing, setObjectiveModalShowing] = useState(false);
 	const [timerRunning, setTimerRunning] = useState(false);
 	const [time, setTime] = useState(0);
 	const [consoleLogs, setConsoleLogs] = useState([]);
@@ -36,6 +37,7 @@ const ApplicationProvider = ({ children }) => {
 	const [endTime, setEndTime] = useState(undefined);
 	const [elapsedTime, setElapsedTime] = useState("00:00:00");
 	const [gameLogs, setGameLogs] = useState([]);
+	const [selectedObjective, setSelectedObjective] = useState(undefined);
 
 	//const navigate = useNavigate();
 
@@ -59,6 +61,10 @@ const ApplicationProvider = ({ children }) => {
 			},
 		]);
 		setTimerRunning(false);
+		setGameLogs([]);
+		setStartTime(undefined);
+		setEndTime(undefined);
+		setElapsedTime("00:00:00");
 		setTime(0);
 	};
 
@@ -107,6 +113,10 @@ const ApplicationProvider = ({ children }) => {
 		setMapModalShowing,
 		difficultyModalShowing,
 		setDifficultyModalShowing,
+		objectiveModalShowing,
+		setObjectiveModalShowing,
+		setSelectedObjective,
+		selectedObjective,
 	};
 
 	return (

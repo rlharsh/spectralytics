@@ -29,13 +29,14 @@ const DifficultyManager = () => {
 				<div className="difficulty-manager">
 					<p>Select a map from the available options below.</p>
 					<select
+						className="custom-select"
 						name="difficulty"
 						id="difficulty"
 						value={selectedMapId}
 						onChange={handleSelectChange}
 					>
 						<option value="" disabled>
-							Select a map
+							Select a difficulty
 						</option>
 						{difficultyData.map((map) => (
 							<option key={map.id} value={map.id}>

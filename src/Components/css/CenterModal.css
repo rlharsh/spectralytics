@@ -14,9 +14,32 @@
   border-radius: var(--BorderRadius);
   position: absolute;
   width: calc(100% - 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   top: 50%;
   transform: translateY(-50%);
   padding: 1rem;
+}
+.center-modal__content ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+.center-modal__content ul li {
+  padding: 0.2rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+.center-modal__content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--ColorBlue);
+  border-radius: 50%;
 }
 @media (min-width: 1224px) {
   .center-modal__content {
