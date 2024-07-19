@@ -3,7 +3,11 @@ import "./css/ObjectiveManager.css";
 import { GameDataContext } from "../Providers/GameDataProvider";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import ObjectiveTile from "./ObjectiveTile";
-import { completeObjective, unselectObjective } from "../Helpers/updateObjectives";
+import {
+	completeObjective,
+	selectObjective,
+	unselectObjective,
+} from "../Helpers/updateObjectives";
 import CenterModal from "./CenterModal";
 
 const ObjectiveManager = () => {
@@ -13,8 +17,8 @@ const ObjectiveManager = () => {
 		setCurrentObjectives,
 		objectiveModalShowing,
 		setObjectiveModalShowing,
-		setSelectedObjective,
 		selectedObjective,
+		setSelectedObjective,
 	} = useContext(ApplicationContext);
 
 	const handleObjectiveClick = (objective) => {
@@ -33,7 +37,7 @@ const ObjectiveManager = () => {
 		} else {
 			if (currentObjectives.length !== 4) {
 				setCurrentObjectives((prevObjectives) =>
-					setSelectedObjective(prevObjectives, objective)
+					selectObjective(prevObjectives, objective)
 				);
 			}
 		}
@@ -55,31 +59,31 @@ const ObjectiveManager = () => {
 		]);
 	};
 
-	const handleModal = (objective) => {
+	const handleModalClick = (objective) => {
 		setSelectedObjective(objective);
 		setObjectiveModalShowing(true);
 	};
 
 	return (
 		<div className="objective-wrapper">
+			{objectiveModalShowing && selectedObjective && (
+				<CenterModal title="Objective Information">
+					<p>{selectedObjective?.name}</p>
+					<p>{selectedObjective?.strategy}</p>
+					{selectedObjective?.notes.length > 0 && (
+						<ul>
+							{selectedObjective?.notes.map((note) => (
+								<li key={note}>{note}</li>
+							))}
+						</ul>
+					)}
+				</CenterModal>
+			)}
 			{currentObjectives.length !== 4 ? (
 				<>
-					{objectiveModalShowing && selectedObjective && (
-						<CenterModal title="Objective Information">
-							<p>{selectedObjective?.name}</p>
-							<p>{selectedObjective?.strategy}</p>
-							{selectedObjective?.notes.length > 0 && (
-								<ul>
-									{selectedObjective?.notes.map((note) => (
-										<li key={note}>{note}</li>
-									))}
-								</ul>
-							)}
-						</CenterModal>
-					)}
 					{objectiveData.map((objective) => (
 						<ObjectiveTile
-							modalClick={(objective) => handleModal(objective)}
+							modalClick={(objective) => handleModalClick(objective)}
 							key={objective.id}
 							objective={objective}
 							click={() => handleObjectiveClick(objective)}
@@ -94,6 +98,7 @@ const ObjectiveManager = () => {
 				<>
 					{currentObjectives.map((objective) => (
 						<ObjectiveTile
+							modalClick={(objective) => handleModalClick(objective)}
 							key={objective.id}
 							objective={objective}
 							click={() => handleObjectiveClick(objective)}

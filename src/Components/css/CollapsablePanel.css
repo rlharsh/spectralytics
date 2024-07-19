@@ -8,7 +8,7 @@
   padding: 0.4rem 1rem;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--ColorContainerLight);
+  background-color: var(--ColorContainer);
   display: flex;
   border: 1px solid var(--ColorOutline);
   border-radius: var(--BorderRadius);

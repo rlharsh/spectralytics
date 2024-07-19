@@ -29,14 +29,18 @@ const SpectraController = () => {
 		startTime,
 		setStartTime,
 		setEndTime,
+		endTime,
 		elapsedTime,
 		setElapsedTime,
 		updateGameLog,
 		gameLogs,
 		selectedMap,
+		setSelectedMap,
 		selectedEvidence,
+		setStartDecryptedSaveFile,
+		setEndingDecryptedSaveFile,
 	} = useContext(ApplicationContext);
-	const { evidenceData, loading, objectiveData, writeGameLog } =
+	const { evidenceData, loading, objectiveData, writeGameLog, mapData } =
 		useContext(GameDataContext);
 
 	const contractTimer = useRef(null);
@@ -148,11 +152,7 @@ const SpectraController = () => {
 
 	const completeAnObjective = useCallback(
 		(e, l) => {
-			console.log(e, l);
 			if (!contractTimer.current) return;
-
-			console.log("Event received:", e);
-			console.log("Current objectives before update:", currentObjectives);
 
 			const locatedObjective = currentObjectives.find((ob) => ob.slug === e) ?? null;
 
@@ -195,12 +195,11 @@ const SpectraController = () => {
 		setStartTime(null);
 
 		const uid = uuidv4();
-		console.log(user);
 		setEndTime(new Date());
 
 		const contractData = {
 			id: uid,
-			owner: uid,
+			owner: user.uuid,
 			startTime: startTime,
 			endTime: new Date(),
 			elapsedTime: elapsedTime,
@@ -284,9 +283,16 @@ const SpectraController = () => {
 					}
 				}
 				return;
-			}
-
-			if (evidenceData.length > 0) {
+			} else if (key === "start-stop") {
+				if (startTime === undefined && endTime === undefined) {
+					beginContract();
+				} else if (startTime !== undefined && endTime === undefined) {
+					endContract();
+				} else {
+					newContract();
+				}
+				return;
+			} else if (evidenceData.length > 0) {
 				const locatedEvidence = evidenceData.find((ev) => ev.evidenceSlug === key);
 
 				if (locatedEvidence) {
@@ -332,7 +338,69 @@ const SpectraController = () => {
 				}
 			}
 		},
-		[evidenceData, updateGameLog, setSelectedEvidence]
+		[
+			evidenceData,
+			updateGameLog,
+			setSelectedEvidence,
+			beginContract,
+			endContract,
+			endTime,
+			newContract,
+			startTime,
+		]
+	);
+
+	const changeMapCompanionApp = useCallback(
+		(json) => {
+			const pJson = JSON.parse(json);
+
+			if (pJson.level === "Main Menu") {
+				setSelectedMap(undefined);
+				return;
+			}
+
+			const locatedMap = mapData.find((map) => map.internal === pJson.level);
+			if (locatedMap) {
+				setSelectedMap(locatedMap);
+			}
+		},
+		[mapData, setSelectedMap]
+	);
+
+	const saveFileCompanionApp = useCallback(
+		(json) => {
+			const parsedJson = typeof json === "string" ? JSON.parse(json) : json;
+
+			if (!parsedJson || typeof parsedJson !== "object") {
+				console.error("Invalid JSON data received");
+				return;
+			}
+
+			const currentTime = new Date();
+
+			if (!startTime) {
+				console.log("Setting starting save data.");
+				setStartTime(currentTime);
+				setStartDecryptedSaveFile(parsedJson);
+			} else if (startTime && !endTime) {
+				console.log("Setting ending save data.");
+				setEndTime(currentTime);
+				setEndingDecryptedSaveFile(parsedJson);
+
+				// Optionally, you can trigger any end-of-game logic here
+				//endContract();
+			} else {
+				console.warn("Unexpected save file received. Game may already be completed.");
+			}
+		},
+		[
+			setStartDecryptedSaveFile,
+			setEndingDecryptedSaveFile,
+			startTime,
+			endTime,
+			setStartTime,
+			setEndTime,
+		]
 	);
 
 	useEffect(() => {
@@ -382,9 +450,15 @@ const SpectraController = () => {
 
 		socket.on("nlp", handleNlpResponse);
 
+		socket.on("changeMap", changeMapCompanionApp);
+
+		socket.on("saveFile", saveFileCompanionApp);
+
 		return () => {
 			socket.off("nlp", handleNlpResponse);
 			socket.off("toggleKey", handleToggleKeyResponse);
+			socket.off("changeMap", changeMapCompanionApp);
+			socket.off("saveFile", saveFileCompanionApp);
 		};
 	}, [
 		evidenceData,
@@ -397,6 +471,8 @@ const SpectraController = () => {
 		notThisEvidence,
 		unselectEvidence,
 		handleToggleKeyResponse,
+		changeMapCompanionApp,
+		saveFileCompanionApp,
 	]);
 
 	useEffect(() => {}, [selectedGhost]);
@@ -467,15 +543,15 @@ const SpectraController = () => {
 				recognitionRef.current.onerror = null;
 			}
 		};
-	}, []);
-
-	useEffect(() => {}, [loading, evidenceData]);
+	}, [handleResult]);
 
 	return !loading && isSupported ? (
-		<div className="spectra" onClick={toggleListening}>
-			<AiOutlineRobot />
-			<audio ref={audioRef} />
-		</div>
+		<>
+			<div className="spectra" onClick={toggleListening}>
+				<AiOutlineRobot />
+				<audio ref={audioRef} />
+			</div>
+		</>
 	) : (
 		<div>Loading...</div>
 	);

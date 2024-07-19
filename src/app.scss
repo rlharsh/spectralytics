@@ -31,47 +31,47 @@
 }
 
 .dark-theme {
-	--Background: #2b3339; // Everforest Dark bg0
-	--ColorContainer: #323c41; // Everforest Dark bg1
-	--ColorContainerLight: #3a454a; // Everforest Dark bg2
-	--ColorText: #d3c6aa; // Everforest Dark fg
-	--ColorGrey: #7a8478; // Everforest Dark grey1
+	--Background: #2b3240; // Slightly muted dark slate blue
+	--ColorContainer: #3b4252; // Muted darker blue-grey
+	--ColorContainerLight: #404754; // Slightly lighter muted blue-grey
+	--ColorText: #eceff4; // Soft, slightly muted icy blue-white
+	--ColorGrey: #c2c8d2; // Muted light greyish blue
 	--FontSizeNormal: 14px;
 	--FontWeightNormal: 400;
-	--ColorBlue: #7fbbb3; // Everforest Dark blue
-	--ColorAccent: #a7c080; // Everforest Dark green
-	--ColorAccentOff: #d699b6; // Everforest Dark purple
-	--ColorOutline: #475258; // Everforest Dark bg3
-	--ColorAccentTwo: #e67e80; // Everforest Dark red
-	--ColorTextHighlight: #d3c6aa; // Everforest Dark fg
-	--ColorSolidRed: #e67e80; // Everforest Dark red
-	--ColorSolidGreen: #a7c080; // Everforest Dark green
-	--ColorGreen: #3d484d; // Slightly darker than bg1 for subtle green backgrounds
-	--ColorRed: #442e2e; // Custom dark red for subtle red backgrounds
-	--ColorAccentedContainer: #475258; // Everforest Dark bg2
-	--ColorAccentedHighlight: #475258; // Everforest Dark bg3
+	--ColorBlue: #7dacbe; // Muted, softer light blue
+	--ColorAccent: #88c0d0; // Muted, softer deeper blue
+	--ColorAccentOff: #95ae84; // Muted, softer light green
+	--ColorOutline: #4a5362; // Muted dark greyish blue
+	--ColorAccentTwo: #a688a2; // Muted, softer light purple
+	--ColorTextHighlight: #d8bd86; // Muted, softer pale gold
+	--ColorSolidRed: #b15f67; // Muted, softer red
+	--ColorSolidGreen: #95ae84; // Muted, softer light green (same as ColorAccentOff)
+	--ColorGreen: #363d4a; // Muted dark blue-grey for subtle green backgrounds
+	--ColorRed: #4a5362; // Muted darker greyish blue for subtle red backgrounds
+	--ColorAccentedContainer: #4a5362; // Muted dark greyish blue
+	--ColorAccentedHighlight: #5976a0; // Muted, softer dark blue for important highlights
 }
 
 .light-theme {
-	--Background: #fdf6e3; // Everforest Light bg0
-	--ColorContainer: #f3efda; // Everforest Light bg1
-	--ColorContainerLight: #fdf6e3; // Everforest Light bg0
-	--ColorText: #5c6a72; // Everforest Light fg
-	--ColorGrey: #939f91; // Everforest Light grey1
+	--Background: #eceff4; // Nord 6: Bright icy blue-white
+	--ColorContainer: #e5e9f0; // Nord 5: Lighter icy blue-white
+	--ColorContainerLight: #d8dee9; // Nord 4: Light greyish blue
+	--ColorText: #2e3440; // Nord 0: Dark slate gray
+	--ColorGrey: #4c566a; // Nord 3: Dark greyish blue
 	--FontSizeNormal: 14px;
 	--FontWeightNormal: 400;
-	--ColorBlue: #3a94c5; // Everforest Light blue
-	--ColorAccent: #8da101; // Everforest Light green
-	--ColorAccentOff: #945e80; // Everforest Light purple
-	--ColorOutline: #d3c6aa; // Everforest Light bg5
-	--ColorAccentTwo: #df69ba; // Everforest Light pink
-	--ColorTextHighlight: #3c4841; // Everforest Light bg5
-	--ColorSolidRed: #f85552; // Everforest Light red
-	--ColorSolidGreen: #8da101; // Everforest Light green
-	--ColorGreen: #e9e8d2; // Slightly lighter than bg1 for subtle green backgrounds
-	--ColorRed: #f6ece4; // Slightly lighter than bg1 for subtle red backgrounds
-	--ColorAccentedContainer: #f3efda; // Everforest Light bg1
-	--ColorAccentedHighlight: #efebd4; // Custom (slightly darker than bg1)
+	--ColorBlue: #5e81ac; // Nord 10: Dark blue
+	--ColorAccent: #81a1c1; // Nord 9: Lighter blue
+	--ColorAccentOff: #8fbcbb; // Nord 7: Teal
+	--ColorOutline: #d8dee9; // Nord 4: Light greyish blue
+	--ColorAccentTwo: #b48ead; // Nord 15: Light purple
+	--ColorTextHighlight: #ebcb8b; // Nord 13: Pale gold
+	--ColorSolidRed: #bf616a; // Nord 11: Soft red
+	--ColorSolidGreen: #a3be8c; // Nord 14: Light green
+	--ColorGreen: #e5e9f0; // Nord 5: Lighter icy blue-white for subtle green backgrounds
+	--ColorRed: #e5e9f0; // Nord 5: Lighter icy blue-white for subtle red backgrounds
+	--ColorAccentedContainer: #d8dee9; // Nord 4: Light greyish blue
+	--ColorAccentedHighlight: #5e81ac; // Nord 10: Dark blue for important highlights
 }
 
 body {
@@ -83,7 +83,7 @@ body {
 }
 
 a {
-	color: var(--ColorBlue);
+	color: var(--ColorAccent) !important;
 	font-weight: 900;
 	font-size: var(--FontSizeNormal);
 	text-transform: uppercase;
@@ -196,17 +196,20 @@ button {
 
 	&:hover {
 		color: var(--Background) !important;
-		background-color: #fff !important;
-		border: 1px solid var(--ColorAccent) !important;
+		//background-color: #fff !important;
+		//border: 1px solid var(--ColorAccent) !important;
 	}
 }
 
 .highlight {
-	background-color: var(--ColorBlue);
+	//background-color: var(--ColorBlue);
+	//color: var(--Background);
+	background-color: #5e81ac;
 	color: var(--Background);
 
 	&:hover {
-		background-color: var(--ColorAccentOff);
+		color: var(--Background) !important;
+		//	background-color: var(--ColorAccentOff);
 	}
 }
 
@@ -277,6 +280,7 @@ input[type="text"] {
 	align-content: center;
 	justify-content: space-between;
 	gap: 0.4rem;
+	padding: 0 1rem;
 }
 
 .accent-svg {
@@ -354,9 +358,8 @@ input[type="checkbox"] {
 
 /* Style for the button */
 button {
-	background-color: var(--ColorBlue);
-	color: var(--ColorTextHighlight);
-	//border: none;
+	background-color: var(--ColorContainer);
+	color: var(--ColorText);
 	padding: 8px 16px;
 	border-radius: var(--BorderRadius);
 	cursor: pointer;
@@ -364,14 +367,15 @@ button {
 	margin-left: 10px;
 
 	&:hover {
-		color: var(--ColorAccent) !important;
+		color: var(--Background) !important;
+		background-color: var(--ColorContainerLight);
 		svg {
 			color: var(--ColorAccent) !important;
 		}
 	}
 
 	svg {
-		color: var(--ColorContainer) !important;
+		color: var(--ColorText) !important;
 	}
 }
 

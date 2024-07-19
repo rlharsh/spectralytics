@@ -6,6 +6,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: var(--FontSizeNormal);
+  color: var(--ColorTextHighlight);
 }
 .menu-button svg {
   width: 1.2rem;
@@ -16,6 +17,6 @@
 }
 .menu-button:hover {
   background-color: var(--Background);
-  color: var(--ColorBlue);
+  color: var(--ColorText) !important;
   outline: 1px solid var(--ColorAccent);
 }

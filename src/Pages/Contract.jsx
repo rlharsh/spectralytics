@@ -8,12 +8,25 @@ import ContractInformation from "../Components/ContractInformation";
 import MapManager from "../Components/MapManager";
 import DifficultyManager from "../Components/DifficultyManager";
 import MapInformation from "../Components/MapInformation";
+import { useContext, useEffect } from "react";
+import { ApplicationContext } from "../Providers/ApplicationProvider";
 
 const Contract = () => {
+	const { startDecryptedSaveFile, endingDecryptedSaveFile } =
+		useContext(ApplicationContext);
+
+	useEffect(() => {
+		console.log(startDecryptedSaveFile);
+	}, [startDecryptedSaveFile]);
+
+	useEffect(() => {
+		console.log(endingDecryptedSaveFile);
+	}, [endingDecryptedSaveFile]);
+
 	return (
 		<main className="page-container">
 			<MapManager title="Map Manager" />
-			<DifficultyManager title="Difficulty Mangaer" />
+			<DifficultyManager title="Difficulty Manager" />
 			<SpectraController />
 			<div className="double-panel">
 				<section className="double-panel__main">

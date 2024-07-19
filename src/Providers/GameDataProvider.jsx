@@ -1,6 +1,7 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
-import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
+import PropTypes from "prop-types";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 export const GameDataContext = createContext(null);
 
@@ -81,6 +82,10 @@ const GameDataProvider = ({ children }) => {
 	};
 
 	return <GameDataContext.Provider value={values}>{children}</GameDataContext.Provider>;
+};
+
+GameDataProvider.propTypes = {
+	children: PropTypes.object.isRequired,
 };
 
 export default GameDataProvider;

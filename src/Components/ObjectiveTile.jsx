@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import CenterModal from "./CenterModal";
 import "./css/ObjectiveTile.css";
 import { IoIosInformationCircle } from "react-icons/io";
 
@@ -12,10 +11,9 @@ const ObjectiveTile = ({ objective, click, selected, modalClick }) => {
 	}, [selected]);
 
 	const handleChange = () => {
+		console.log("");
 		click(objective);
 	};
-
-	console.log(objective);
 
 	return (
 		<div className="objective-tile">
@@ -53,6 +51,7 @@ ObjectiveTile.propTypes = {
 	objective: PropTypes.object.isRequired,
 	click: PropTypes.func.isRequired,
 	selected: PropTypes.func.isRequired,
+	modalClick: PropTypes.func.isRequired,
 };
 
 export default ObjectiveTile;

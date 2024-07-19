@@ -1,7 +1,7 @@
 .ghost-tile {
 	display: flex;
 	flex-direction: column;
-	background-color: var(--ColorAccentedContainer);
+	background-color: var(--ColorContainer);
 	border: 1px solid var(--ColorOutline);
 	position: relative;
 	cursor: pointer;
@@ -9,7 +9,7 @@
 	transition: all 150ms ease-in-out;
 	border-radius: var(--BorderRadius);
 	box-shadow: var(--Shadow);
-	background-color: var(--ColorContainerLight);
+	background-color: var(--ColorContainer);
 
 	&__header {
 		display: flex;
@@ -75,7 +75,7 @@
 	&:hover {
 		//background-color: var(--ColorContainerLight);
 		//transform: scale(1.01);
-		background-color: var(--ColorAccentedHighlight);
+		background-color: var(--ColorContainerLight);
 		//font-weight: 700;
 		h2 {
 			color: var(--ColorSolidRed);

@@ -39,7 +39,7 @@ const ContractInformation = () => {
 				<h3>Elapsed Time:</h3>
 				<p className="accent-text">{elapsedTime}</p>
 			</div>
-			<button>
+			<button className="highlight">
 				{startTime === undefined
 					? "Start Contract"
 					: endTime === undefined

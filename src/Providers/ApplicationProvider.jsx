@@ -1,11 +1,14 @@
-import { createContext, useState } from "react";
-//import { useNavigate } from "react-router-dom";
+import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 export const ApplicationContext = createContext(null);
 
 const ApplicationProvider = ({ children }) => {
-	const [selectedDifficulty, setSelectedDifficulty] = useState(undefined);
+	const [selectedDifficulty, setSelectedDifficulty] = useState({
+		difficultyName: "Professional",
+		difficultyTimers: [0, 30, 50, 60, 21, 3],
+		hiddenClues: 0,
+	});
 	const [selectedGhost, setSelectedGhost] = useState(undefined);
 	const [selectedEvidence, setSelectedEvidence] = useState([]);
 	const [selectedMap, setSelectedMap] = useState(undefined);
@@ -38,11 +41,27 @@ const ApplicationProvider = ({ children }) => {
 	const [elapsedTime, setElapsedTime] = useState("00:00:00");
 	const [gameLogs, setGameLogs] = useState([]);
 	const [selectedObjective, setSelectedObjective] = useState(undefined);
+	const [startDecryptedSaveFile, setStartDecryptedSaveFile] = useState(undefined);
+	const [endingDecryptedSaveFile, setEndingDecryptedSaveFile] = useState(undefined);
+	const [showSummaryScreen, setShowSummaryScreen] = useState(false);
 
-	//const navigate = useNavigate();
+	useEffect(() => {
+		if (startDecryptedSaveFile && endingDecryptedSaveFile) {
+			setShowSummaryScreen(true);
+		} else {
+			setShowSummaryScreen(false);
+		}
+	}, [startDecryptedSaveFile, endingDecryptedSaveFile]);
 
 	const newContract = () => {
-		setSelectedDifficulty(undefined);
+		setStartDecryptedSaveFile(undefined);
+		setEndingDecryptedSaveFile(undefined);
+		setShowSummaryScreen(false);
+		setSelectedDifficulty({
+			difficultyName: "Professional",
+			difficultyTimers: [0, 30, 50, 60, 21, 3],
+			hiddenClues: 0,
+		});
 		setSelectedMap(undefined);
 		setSelectedGhost(undefined);
 		setSelectedEvidence([]);
@@ -117,6 +136,12 @@ const ApplicationProvider = ({ children }) => {
 		setObjectiveModalShowing,
 		setSelectedObjective,
 		selectedObjective,
+		startDecryptedSaveFile,
+		setStartDecryptedSaveFile,
+		endingDecryptedSaveFile,
+		setEndingDecryptedSaveFile,
+		showSummaryScreen,
+		setShowSummaryScreen,
 	};
 
 	return (
