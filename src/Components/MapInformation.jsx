@@ -1,22 +1,35 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ApplicationContext } from "../Providers/ApplicationProvider";
 import "./css/MapInformation.css";
+import { IoInformation } from "react-icons/io5";
+import { BsLightning } from "react-icons/bs";
 
 const MapInformation = () => {
 	const { selectedMap } = useContext(ApplicationContext);
+
+	useEffect(() => {
+		console.log(selectedMap);
+	}, [selectedMap]);
 
 	return (
 		<div className="map-info-main">
 			{selectedMap && (
 				<div className="map-info-container">
-					<h2 className="map-info-title">Available Rooms</h2>
-					<div className="room-list">
-						{selectedMap.rooms.map((r) => (
-							<div key={r.id} className="room-item">
-								{r}
+					<div className="rooms">
+						{selectedMap.rooms.map((floor) => (
+							<div key={floor.title}>
+								<h3>{floor.title}</h3>
+								{floor.rooms.map((room) => (
+									<div key={room} className="flex-room">
+										{room.fusebox ? <BsLightning /> : ""}
+										{room.cursed?.item ? <IoInformation /> : ""}
+										<p key={room.name}>{room.name}</p>
+									</div>
+								))}
 							</div>
 						))}
 					</div>
+					<div className="room-list"></div>
 				</div>
 			)}
 			{/* <h2 className="map-info-title">Cursed Object Locations</h2> */}

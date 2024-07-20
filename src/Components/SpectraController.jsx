@@ -46,12 +46,15 @@ const SpectraController = () => {
 	const contractTimer = useRef(null);
 
 	const toggleListening = () => {
-		setListening((previousListening) => !previousListening);
-		if (!listening) {
-			if (recognitionRef.current) recognitionRef.current.start();
-		} else {
-			if (recognitionRef.current) recognitionRef.current.stop();
-		}
+		setListening((prevListening) => {
+			const newListening = !prevListening;
+			if (newListening) {
+				if (recognitionRef.current) recognitionRef.current.start();
+			} else {
+				if (recognitionRef.current) recognitionRef.current.stop();
+			}
+			return newListening;
+		});
 	};
 
 	const addEvidence = useCallback(
@@ -487,6 +490,10 @@ const SpectraController = () => {
 	const processTranscript = useCallback(async (t) => {
 		if (t.toLowerCase().includes("spectra")) {
 			socket.emit("nlp", t.toLowerCase());
+			if (recognitionRef.current) {
+				recognitionRef.current.stop();
+				recognitionRef.current.start();
+			}
 		}
 	}, []);
 
@@ -520,20 +527,30 @@ const SpectraController = () => {
 		recognitionRef.current = new (window.SpeechRecognition ||
 			window.webkitSpeechRecognition)();
 		recognitionRef.current.continuous = true;
-		recognitionRef.current.interimResult = true;
+		recognitionRef.current.interimResults = true;
 		recognitionRef.current.onresult = handleResult;
 
 		recognitionRef.current.onend = () => {
-			recognitionRef.current.start();
+			console.log("Speech recognition ended");
+			if (listening) {
+				console.log("Restarting speech recognition");
+				recognitionRef.current.start();
+			}
 		};
 
 		recognitionRef.current.onerror = (event) => {
+			console.error("Speech recognition error:", event.error);
 			if (event.error === "no-speech" || event.error === "audio-capture") {
-				// PASS
+				console.log("NO SPEECH");
 			} else if (event.error === "not-allowed") {
+				console.log("NOT ALLOWED");
 				setIsSupported(false);
 			}
 		};
+
+		if (listening) {
+			recognitionRef.current.start();
+		}
 
 		return () => {
 			if (recognitionRef.current) {
@@ -543,7 +560,7 @@ const SpectraController = () => {
 				recognitionRef.current.onerror = null;
 			}
 		};
-	}, [handleResult]);
+	}, [handleResult, listening]);
 
 	return !loading && isSupported ? (
 		<>

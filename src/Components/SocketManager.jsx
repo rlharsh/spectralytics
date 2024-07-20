@@ -61,7 +61,14 @@ const SocketManager = () => {
 								placeholder={uuid}
 								value={uuid}
 							/>
-							<button>Copy</button>
+							<button
+								onClick={(e) => {
+									e.preventDefault();
+									navigator.clipboard.writeText(uuid);
+								}}
+							>
+								Copy
+							</button>
 						</div>
 					</div>
 				</CenterModal>

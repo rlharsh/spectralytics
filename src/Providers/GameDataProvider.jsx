@@ -20,9 +20,11 @@ const GameDataProvider = ({ children }) => {
 			try {
 				const storedData = localStorage.getItem(collectionName);
 				if (storedData) {
-					//console.log(`Loaded ${collectionName} from localStorage`);
 					return JSON.parse(storedData);
 				} else {
+					if (!db) {
+						throw new Error("Firestore database instance is not available");
+					}
 					const collectionRef = collection(db, collectionName);
 					const snapshot = await getDocs(collectionRef);
 					const data = snapshot.docs.map((doc) => ({
@@ -30,7 +32,7 @@ const GameDataProvider = ({ children }) => {
 						...doc.data(),
 					}));
 					localStorage.setItem(collectionName, JSON.stringify(data));
-					//console.log(`Fetched ${collectionName} from Firebase`);
+					console.log(`Fetched ${collectionName} from Firebase`);
 					return data;
 				}
 			} catch (error) {
@@ -63,6 +65,9 @@ const GameDataProvider = ({ children }) => {
 
 	const writeGameLog = async (contractData) => {
 		try {
+			if (!db) {
+				throw new Error("Firestore database instance is not available");
+			}
 			const colRef = collection(db, "contractLogs");
 			const docRef = await addDoc(colRef, contractData);
 			console.log("Document written with ID: ", docRef.id);
@@ -85,7 +90,7 @@ const GameDataProvider = ({ children }) => {
 };
 
 GameDataProvider.propTypes = {
-	children: PropTypes.object.isRequired,
+	children: PropTypes.node.isRequired,
 };
 
 export default GameDataProvider;

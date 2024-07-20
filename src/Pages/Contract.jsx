@@ -16,11 +16,11 @@ const Contract = () => {
 		useContext(ApplicationContext);
 
 	useEffect(() => {
-		console.log(startDecryptedSaveFile);
+		//console.log(startDecryptedSaveFile);
 	}, [startDecryptedSaveFile]);
 
 	useEffect(() => {
-		console.log(endingDecryptedSaveFile);
+		//console.log(endingDecryptedSaveFile);
 	}, [endingDecryptedSaveFile]);
 
 	return (
@@ -28,28 +28,24 @@ const Contract = () => {
 			<MapManager title="Map Manager" />
 			<DifficultyManager title="Difficulty Manager" />
 			<SpectraController />
-			<div className="double-panel">
-				<section className="double-panel__main">
-					<div className="flex-container">
-						<CollapsablePanel title="Objectives">
-							<ObjectiveManager />
-						</CollapsablePanel>
-						<CollapsablePanel title="Map Information">
-							<MapInformation />
-						</CollapsablePanel>
-					</div>
-					<section>
-						<CollapsablePanel title="Ghost Data">
-							<GhostManager />
-						</CollapsablePanel>
-					</section>
-					<section>
-						<CollapsablePanel title="Logs">
-							<GameLog />
-						</CollapsablePanel>
-					</section>
+			<div className="triple-panel">
+				<aside className="triple-panel__left-sidebar">
+					<CollapsablePanel title="Map Information">
+						<MapInformation />
+					</CollapsablePanel>
+					<CollapsablePanel title="Objectives">
+						<ObjectiveManager />
+					</CollapsablePanel>
+				</aside>
+				<section className="triple-panel__main">
+					<CollapsablePanel title="Ghost Data">
+						<GhostManager />
+					</CollapsablePanel>
+					<CollapsablePanel title="Logs">
+						<GameLog />
+					</CollapsablePanel>
 				</section>
-				<aside className="double-panel__sidebar">
+				<aside className="triple-panel__right-sidebar">
 					<CollapsablePanel title="Contract">
 						<ContractInformation />
 					</CollapsablePanel>

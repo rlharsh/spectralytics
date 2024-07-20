@@ -12,17 +12,17 @@ import { ThemeContext } from "../Providers/ThemeProvider";
 const ApplicationView = () => {
 	const { theme } = useContext(ThemeContext);
 	return (
-		<GameDataProvider>
-			<ApplicationProvider>
-				<AuthProvider auth={auth}>
+		<AuthProvider auth={auth}>
+			<GameDataProvider>
+				<ApplicationProvider>
 					<div className={`App ${theme} app-view`}>
 						<SocketManager />
 						<Header />
 						<Outlet />
 					</div>
-				</AuthProvider>
-			</ApplicationProvider>
-		</GameDataProvider>
+				</ApplicationProvider>
+			</GameDataProvider>
+		</AuthProvider>
 	);
 };
 

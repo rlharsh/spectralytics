@@ -108,7 +108,7 @@ const Header = () => {
 				<TbGhost2Filled />
 				<h1>SPECTRALYTICS</h1>
 			</section>
-			{isTabletOrMobile && (
+			{
 				<Button
 					type="button"
 					colorScheme="purple"
@@ -117,8 +117,8 @@ const Header = () => {
 				>
 					<p>Menu</p>
 				</Button>
-			)}
-			{(menuOpen || !isTabletOrMobile) && (
+			}
+			{menuOpen && (
 				<section className="header__sidebar">
 					<nav className="header__navigation">
 						{navigationMenu.map((item) => (

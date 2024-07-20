@@ -11,7 +11,7 @@
   --FontSizeNormal: 14px;
   --FontWeightNormal: 400;
   --ColorBlue: #4f9bfa;
-  --BorderRadius: 0.2rem;
+  --BorderRadius: 0rem;
   --ColorAccent: #fff;
   --ColorAccentOff: #f8f8f8;
   --ColorOutline: #303741;
@@ -104,11 +104,9 @@ a {
 }
 @media (min-width: 1224px) {
   .page-container {
-    margin-left: 18rem;
     margin-top: 6rem;
     padding: 1rem 1rem;
     border-radius: var(--BorderRadius);
-    max-width: calc(100% - 19rem);
   }
 }
 
@@ -139,6 +137,38 @@ a {
   .double-panel__sidebar {
     min-width: 28rem;
   }
+}
+
+.triple-panel {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+@media (min-width: 1224px) {
+  .triple-panel {
+    flex-direction: row;
+  }
+}
+.triple-panel__left-sidebar, .triple-panel__right-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+}
+@media (min-width: 1224px) {
+  .triple-panel__left-sidebar, .triple-panel__right-sidebar {
+    width: 28rem;
+    flex-shrink: 0;
+  }
+}
+.triple-panel__main {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .flex-container {

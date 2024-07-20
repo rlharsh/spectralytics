@@ -16,7 +16,7 @@
   font-weight: 400;
 }
 .menu-button:hover {
-  background-color: var(--Background);
+  background-color: var(--ColorContainerLight);
   color: var(--ColorText) !important;
   outline: 1px solid var(--ColorAccent);
 }
