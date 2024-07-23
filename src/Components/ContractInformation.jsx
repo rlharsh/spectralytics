@@ -24,28 +24,21 @@ const ContractInformation = () => {
 	return (
 		<div className="contract-information">
 			<div className="flex-row">
-				<h3>Current Map:</h3>
+				<h3>Map:</h3>
 				<a href="#" className="accent-text" onClick={() => handleMapClick()}>
 					{selectedMap?.mapName ?? "Unselected"}
 				</a>
 			</div>
 			<div className="flex-row">
-				<h3>Current Difficulty:</h3>
+				<h3>Difficulty:</h3>
 				<a href="#" className="accent-text" onClick={() => handleDifficultyClick()}>
 					{selectedDifficulty?.difficultyName ?? "Unselected"}
 				</a>
 			</div>
 			<div className="flex-row">
-				<h3>Elapsed Time:</h3>
+				<h3>Time:</h3>
 				<p className="accent-text">{elapsedTime}</p>
 			</div>
-			<button className="highlight">
-				{startTime === undefined
-					? "Start Contract"
-					: endTime === undefined
-					? "End Contract"
-					: "New Contract"}
-			</button>
 		</div>
 	);
 };

@@ -10,20 +10,29 @@
   align-items: center;
   border: 1px solid transparent;
   border-radius: var(--BorderRadius);
-  padding: 0.2rem;
+  padding: 0px 2px;
+  width: 100%;
   font-weight: 500;
 }
 .objective-tile:hover {
-  color: var(--ColorBlue);
+  color: var(--ColorAccent);
   border: 1px solid var(--ColorAccent);
 }
 .objective-tile label {
+  width: 100%;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .objective-tile__left {
   display: flex;
   gap: 0.4rem;
   align-items: center;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .objective-tile__right button {
   max-width: 2rem;
@@ -34,4 +43,11 @@
   width: 1.2rem;
   height: 1.2rem;
   color: var(--ColorAccent);
+}
+
+.objective-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  align-items: center;
 }

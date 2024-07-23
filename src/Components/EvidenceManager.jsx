@@ -25,6 +25,7 @@ const EvidenceManager = () => {
 
 	return (
 		<div className="evidence-container">
+			<h2>Available Evidence</h2>
 			{evidenceData.length > 0 &&
 				evidenceData.map((item) => {
 					count++;

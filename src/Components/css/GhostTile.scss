@@ -1,7 +1,7 @@
 .ghost-tile {
 	display: flex;
 	flex-direction: column;
-	background-color: var(--ColorContainer);
+	//background-color: var(--ColorContainer);
 	border: 1px solid var(--ColorOutline);
 	position: relative;
 	cursor: pointer;
@@ -9,20 +9,16 @@
 	transition: all 150ms ease-in-out;
 	border-radius: var(--BorderRadius);
 	box-shadow: var(--Shadow);
-	background-color: var(--ColorContainer);
+	//background-color: var(--ColorContainer);
+	//height: fit-content;
 
 	&__header {
 		display: flex;
 		justify-content: space-between;
-		//align-items: center;
 		gap: 0.4rem;
-		padding: 0rem 1rem;
-		padding-top: 1rem;
-		//background-color: var(--ColorContainerLight);
+		padding: 6px 6px;
 		border-radius: var(--BorderRadius) var(--BorderRadius) 0 0;
-
-		h1 {
-		}
+		align-items: center;
 	}
 
 	h3 {
@@ -38,10 +34,16 @@
 			width: 1.2rem;
 			height: 1.2rem;
 		}
+
+		&--collapsed {
+			position: absolute;
+			//top: 0;
+			right: 1rem;
+		}
 	}
 
 	&__content {
-		padding: 0 1rem;
+		padding: 6px;
 		margin-bottom: 4rem;
 		display: flex;
 		flex-direction: column;
@@ -57,8 +59,9 @@
 		border-radius: 0 0 var(--Border) var(--Border);
 		display: flex;
 		justify-content: space-between;
-		padding: 0.8rem 1rem;
+		padding: 6px;
 		border-radius: 0 0 var(--BorderRadius) var(--BorderRadius);
+		overflow: clip;
 
 		svg {
 			color: var(--ColorBlue);
@@ -69,14 +72,28 @@
 		&__left {
 			display: flex;
 			gap: 0.2rem;
+			overflow: clip;
 		}
+
+		&--collapsed {
+			position: absolute;
+			top: -0.6rem;
+		}
+	}
+
+	&__slug {
+		display: flex;
+		align-items: center;
+		padding: 0 6px;
+		overflow: clip;
 	}
 
 	&:hover {
 		//background-color: var(--ColorContainerLight);
 		//transform: scale(1.01);
-		background-color: var(--ColorContainerLight);
+		//background-color: var(--ColorContainerLight);
 		//font-weight: 700;
+		color: #fff;
 		h2 {
 			color: var(--ColorSolidRed);
 		}
@@ -85,8 +102,9 @@
 	}
 
 	&__speed {
+		position: relative;
 		background-color: var(--ColorSolidRed);
-		padding: 0.1rem 0.2rem;
+		//padding: 0.1rem 0.2rem;
 		border-radius: var(--BorderRadius);
 		border: 1px solid var(--ColorSolidRed);
 		color: var(--Background);
@@ -95,11 +113,15 @@
 			width: 1rem;
 			height: 1rem;
 		}
+
+		text-wrap: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	&__sanity {
+		position: relative;
 		background-color: var(--ColorSolidGreen);
-		padding: 0.1rem 0.2rem;
+		//padding: 0.1rem 0.2rem;
 		border-radius: var(--BorderRadius);
 		border: 1px solid var(--ColorSolidGreen);
 		color: var(--Background);
@@ -115,6 +137,10 @@
 		svg {
 			color: var(--ColorAccent) !important;
 		}
+	}
+
+	&--selected {
+		border: 1px solid var(--ColorSolidGreen);
 	}
 }
 

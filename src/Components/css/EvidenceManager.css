@@ -5,9 +5,15 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  padding: 1rem;
+  align-items: flex-start;
 }
 .evidence-container a {
   margin-top: 1rem;
   text-align: right !important;
   color: var(--ColorBlue);
+  width: 100%;
+}
+.evidence-container .evidence-tile {
+  width: 100%;
 }

@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 import { completeObjective, selectObjective } from "../Helpers/updateObjectives";
 import socket from "../Helpers/socket";
 import { useAuth } from "../Providers/AuthProvider";
+import { CiMicrophoneOn } from "react-icons/ci";
+import { CiMicrophoneOff } from "react-icons/ci";
 
 const SpectraController = () => {
 	const { user } = useAuth();
@@ -39,23 +41,38 @@ const SpectraController = () => {
 		selectedEvidence,
 		setStartDecryptedSaveFile,
 		setEndingDecryptedSaveFile,
+		handleTap,
 	} = useContext(ApplicationContext);
 	const { evidenceData, loading, objectiveData, writeGameLog, mapData } =
 		useContext(GameDataContext);
 
 	const contractTimer = useRef(null);
 
-	const toggleListening = () => {
+	const toggleListening = useCallback(() => {
 		setListening((prevListening) => {
 			const newListening = !prevListening;
 			if (newListening) {
-				if (recognitionRef.current) recognitionRef.current.start();
+				if (recognitionRef.current && recognitionRef.current.state === "inactive") {
+					try {
+						recognitionRef.current.start();
+					} catch (error) {
+						console.error("Error starting speech recognition:", error);
+						return prevListening; // Keep the previous state if there's an error
+					}
+				}
 			} else {
-				if (recognitionRef.current) recognitionRef.current.stop();
+				if (recognitionRef.current && recognitionRef.current.state === "active") {
+					try {
+						recognitionRef.current.stop();
+					} catch (error) {
+						console.error("Error stopping speech recognition:", error);
+						return prevListening; // Keep the previous state if there's an error
+					}
+				}
 			}
 			return newListening;
 		});
-	};
+	}, []);
 
 	const addEvidence = useCallback(
 		(e, l) => {
@@ -202,7 +219,7 @@ const SpectraController = () => {
 
 		const contractData = {
 			id: uid,
-			owner: user.uuid,
+			owner: user.uid,
 			startTime: startTime,
 			endTime: new Date(),
 			elapsedTime: elapsedTime,
@@ -265,6 +282,11 @@ const SpectraController = () => {
 
 	const handleToggleKeyResponse = useCallback(
 		(key) => {
+			if (key === "bpm") {
+				handleTap();
+				return;
+			}
+
 			if (key.includes("not-")) {
 				if (evidenceData.length > 0) {
 					const newKey = key.replace("not-", "");
@@ -564,10 +586,10 @@ const SpectraController = () => {
 
 	return !loading && isSupported ? (
 		<>
-			<div className="spectra" onClick={toggleListening}>
-				<AiOutlineRobot />
-				<audio ref={audioRef} />
-			</div>
+			<button onClick={toggleListening} className="button-highlight">
+				{listening ? <CiMicrophoneOff /> : <CiMicrophoneOn />}
+				{listening ? "Stop Listening" : "Start Listening"}
+			</button>
 		</>
 	) : (
 		<div>Loading...</div>

@@ -19,27 +19,27 @@ const ObjectiveTile = ({ objective, click, selected, modalClick }) => {
 		<div className="objective-tile">
 			<div className="objective-tile__left">
 				{!objective?.complete ? (
-					<>
-						<input
-							type="checkbox"
-							name="objective"
-							id={objective.id}
-							onChange={handleChange}
-							checked={isChecked}
-						/>
-						<label
-							htmlFor={objective.id}
-							className={objective?.complete ? "strikethrough" : null}
-						>
-							{objective?.name}
-						</label>
-					</>
+					<div className="objective-container">
+						<div className="switch-container">
+							<label className="switch">
+								<input
+									type="checkbox"
+									name="objective"
+									id={objective.id}
+									onChange={handleChange}
+									checked={isChecked}
+								/>
+								<span className="slider"></span>
+							</label>
+						</div>
+						<span className="switch-label">{objective.name}</span>
+					</div>
 				) : (
 					<p className="strikethrough">{objective.name}</p>
 				)}
 			</div>
 			<div className="objective-tile__right">
-				<button onClick={() => modalClick(objective)}>
+				<button className="button_small" onClick={() => modalClick(objective)}>
 					<IoIosInformationCircle />
 				</button>
 			</div>

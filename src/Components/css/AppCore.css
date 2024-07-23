@@ -1,0 +1,73 @@
+.app-core {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--BorderRadius);
+  border: 1px solid var(--ColorOutline);
+  overflow: hidden;
+}
+.app-core__menu-bar {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--ColorOutline);
+  justify-content: space-between;
+}
+.app-core__options {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--ColorOutline);
+}
+.app-core__options div {
+  position: relative;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.app-core__content-wrapper {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.app-core__content {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+.app-core__sidebar {
+  width: 28rem;
+  border-left: 1px solid var(--ColorOutline);
+  overflow-y: auto;
+}
+.app-core__button-group {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ColorContainer);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ColorGrey);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ColorAccent);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ColorGrey) var(--ColorContainer);
+}
+
+/* For the container with scrollbar */
+.app-core__content {
+  scrollbar-gutter: stable;
+}

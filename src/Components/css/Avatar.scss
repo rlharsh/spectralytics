@@ -1,15 +1,43 @@
 .avatar {
 	display: flex;
 	align-items: center;
-	gap: 1rem;
+	//gap: 1rem;
 	user-select: none;
-	color: var(--ColorBlue);
-	font-weight: 700;
-	letter-spacing: 2px;
+	//color: var(--ColorBlue);
+	//font-weight: 700;
+	//letter-spacing: 2px;
+	cursor: pointer;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	background-color: var(--Background);
+	padding: 6px 10px;
+	color: var(--ColorText);
+	//border-top: 1px solid var(--ColorOutline);
 
 	img {
 		width: 2rem;
 		height: 2rem;
 		border-radius: 50%;
 	}
+	border-radius: var(--BorderRadius);
+	border: 1px solid var(--ColorOutline);
+}
+
+.network-information {
+	button {
+		width: 100%;
+	}
+
+	.flex-row {
+		margin-top: 2px;
+		padding: 0;
+	}
+}
+
+.avatar-wrapper {
+	display: flex;
+	flex-direction: column;
+	padding: 6px 12px;
+	gap: 0.4rem;
 }

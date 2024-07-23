@@ -1,30 +1,34 @@
 .evidence-tile {
-  padding: 0.6rem 1rem;
+  padding: 6px 10px;
   display: flex;
   justify-content: space-between;
   color: var(--ColorText);
   border: 1px solid var(--ColorOutline);
   border-radius: var(--BorderRadius);
   font-weight: 700;
-  background-color: var(--ColorContainer);
+  background-color: var(--Background);
   cursor: pointer;
-  transition: all 150ms ease-in-out;
 }
 .evidence-tile:hover {
-  color: var(--ColorBlue);
-  background-color: var(--ColorContainerLight);
+  color: var(--ColorAccent);
   border: 1px solid var(--ColorAccent);
+}
+.evidence-tile:hover svg {
+  color: var(--ColorBlue);
 }
 .evidence-tile--selected {
   background-color: var(--ColorSolidGreen);
   font-weight: 700;
   color: var(--Background);
 }
+.evidence-tile--selected:hover {
+  background-color: var(--Background);
+}
 .evidence-tile--selected svg {
   color: var(--Background) !important;
 }
 .evidence-tile svg {
-  color: var(--ColorBlue);
+  color: var(--ColorAccent);
   height: 1.2rem;
   width: 1.2rem;
 }
@@ -39,6 +43,6 @@
   color: var(--Background);
 }
 .evidence-tile--not-selected:hover {
-  border: 1px solid var(--ColorRed);
-  background-color: var(--ColorContainerLight);
+  border: 1px solid var(--ColorAccent);
+  background-color: var(--Background);
 }

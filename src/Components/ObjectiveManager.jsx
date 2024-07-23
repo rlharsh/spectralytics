@@ -66,6 +66,7 @@ const ObjectiveManager = () => {
 
 	return (
 		<div className="objective-wrapper">
+			<h2>Objectives</h2>
 			{objectiveModalShowing && selectedObjective && (
 				<CenterModal title="Objective Information">
 					<p>{selectedObjective?.name}</p>

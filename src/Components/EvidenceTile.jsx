@@ -45,7 +45,7 @@ const EvidenceTile = ({ evidence, selected, onClick, count }) => {
 
 	return (
 		<div className={className} onClick={() => onClick()}>
-			<div className="flex-row">
+			<div className="flex">
 				{count}
 				{icon}
 			</div>

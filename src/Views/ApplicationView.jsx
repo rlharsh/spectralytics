@@ -15,9 +15,8 @@ const ApplicationView = () => {
 		<AuthProvider auth={auth}>
 			<GameDataProvider>
 				<ApplicationProvider>
-					<div className={`App ${theme} app-view`}>
+					<div className={`${theme} app-view`}>
 						<SocketManager />
-						<Header />
 						<Outlet />
 					</div>
 				</ApplicationProvider>

@@ -18,7 +18,6 @@ const MapManager = () => {
 	};
 
 	const handleSelectChange = (e) => {
-		console.log(e.target.value);
 		setSelectedMapId(e.target.value);
 	};
 

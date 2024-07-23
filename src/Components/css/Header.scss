@@ -64,8 +64,9 @@
 		@include breakpoint(min, 1224px) {
 			position: fixed;
 			top: 6rem;
-			left: 1rem;
-			max-width: 16rem;
+			right: 1rem;
+			max-width: 18rem;
+			min-width: 18rem;
 			border-style: none;
 			box-shadow: none;
 			border: 1px solid var(--ColorOutline);

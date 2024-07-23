@@ -1,7 +1,6 @@
 .ghost-tile {
   display: flex;
   flex-direction: column;
-  background-color: var(--ColorContainer);
   border: 1px solid var(--ColorOutline);
   position: relative;
   cursor: pointer;
@@ -11,15 +10,14 @@
   transition: all 150ms ease-in-out;
   border-radius: var(--BorderRadius);
   box-shadow: var(--Shadow);
-  background-color: var(--ColorContainer);
 }
 .ghost-tile__header {
   display: flex;
   justify-content: space-between;
   gap: 0.4rem;
-  padding: 0rem 1rem;
-  padding-top: 1rem;
+  padding: 6px 6px;
   border-radius: var(--BorderRadius) var(--BorderRadius) 0 0;
+  align-items: center;
 }
 .ghost-tile h3 {
   font-weight: 500;
@@ -33,8 +31,12 @@
   width: 1.2rem;
   height: 1.2rem;
 }
+.ghost-tile__clues--collapsed {
+  position: absolute;
+  right: 1rem;
+}
 .ghost-tile__content {
-  padding: 0 1rem;
+  padding: 6px;
   margin-bottom: 4rem;
   display: flex;
   flex-direction: column;
@@ -48,8 +50,9 @@
   border-radius: 0 0 var(--Border) var(--Border);
   display: flex;
   justify-content: space-between;
-  padding: 0.8rem 1rem;
+  padding: 6px;
   border-radius: 0 0 var(--BorderRadius) var(--BorderRadius);
+  overflow: clip;
 }
 .ghost-tile__footer svg {
   color: var(--ColorBlue);
@@ -59,9 +62,20 @@
 .ghost-tile__footer__left {
   display: flex;
   gap: 0.2rem;
+  overflow: clip;
+}
+.ghost-tile__footer--collapsed {
+  position: absolute;
+  top: -0.6rem;
+}
+.ghost-tile__slug {
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  overflow: clip;
 }
 .ghost-tile:hover {
-  background-color: var(--ColorContainerLight);
+  color: #fff;
   border: 1px solid var(--ColorAccent);
   z-index: 1000;
 }
@@ -69,11 +83,13 @@
   color: var(--ColorSolidRed);
 }
 .ghost-tile__speed {
+  position: relative;
   background-color: var(--ColorSolidRed);
-  padding: 0.1rem 0.2rem;
   border-radius: var(--BorderRadius);
   border: 1px solid var(--ColorSolidRed);
   color: var(--Background);
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
 }
 .ghost-tile__speed svg {
   color: var(--Background) !important;
@@ -81,8 +97,8 @@
   height: 1rem;
 }
 .ghost-tile__sanity {
+  position: relative;
   background-color: var(--ColorSolidGreen);
-  padding: 0.1rem 0.2rem;
   border-radius: var(--BorderRadius);
   border: 1px solid var(--ColorSolidGreen);
   color: var(--Background);
@@ -94,6 +110,9 @@
 }
 .ghost-tile button svg {
   color: var(--ColorAccent) !important;
+}
+.ghost-tile--selected {
+  border: 1px solid var(--ColorSolidGreen);
 }
 
 .clue {

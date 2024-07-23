@@ -13,13 +13,14 @@ const MapInformation = () => {
 
 	return (
 		<div className="map-info-main">
+			<h2>{selectedMap?.mapName ?? "Unknown"} Rooms</h2>
 			{selectedMap && (
 				<div className="map-info-container">
 					<div className="rooms">
-						{selectedMap.rooms.map((floor) => (
+						{selectedMap?.rooms.map((floor) => (
 							<div key={floor.title}>
 								<h3>{floor.title}</h3>
-								{floor.rooms.map((room) => (
+								{floor?.rooms.map((room) => (
 									<div key={room} className="flex-room">
 										{room.fusebox ? <BsLightning /> : ""}
 										{room.cursed?.item ? <IoInformation /> : ""}
@@ -29,10 +30,8 @@ const MapInformation = () => {
 							</div>
 						))}
 					</div>
-					<div className="room-list"></div>
 				</div>
 			)}
-			{/* <h2 className="map-info-title">Cursed Object Locations</h2> */}
 		</div>
 	);
 };

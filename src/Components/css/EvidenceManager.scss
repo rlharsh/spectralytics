@@ -4,10 +4,17 @@
 	gap: 0.4rem;
 	user-select: none;
 	//background-color: var(--ColorContainer);
+	padding: 1rem;
+	align-items: flex-start;
 
 	a {
 		margin-top: 1rem;
 		text-align: right !important;
 		color: var(--ColorBlue);
+		width: 100%;
+	}
+
+	.evidence-tile {
+		width: 100%;
 	}
 }

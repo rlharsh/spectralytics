@@ -7,10 +7,11 @@ import { useLocation } from "react-router-dom";
 
 const GhostManager = () => {
 	const { ghostData } = useContext(GameDataContext);
-	const { setSelectedGhost, selectedEvidence } = useContext(ApplicationContext);
+	const { setSelectedGhost, selectedEvidence, searchTerm, setSearchTerm } =
+		useContext(ApplicationContext);
 
 	const [ghostTiles, setGhostTiles] = useState([]);
-	const [searchTerm, setSearchTerm] = useState("");
+
 	const location = useLocation();
 
 	const filterGhostsByEvidence = useCallback(() => {
@@ -69,6 +70,7 @@ const GhostManager = () => {
 
 	return (
 		<div className="ghost-manager-wrapper">
+			{/*
 			<div className="search-box">
 				Search:
 				<input
@@ -78,6 +80,7 @@ const GhostManager = () => {
 					onChange={handleSearchChange}
 				/>
 			</div>
+			*/}
 			<div className="ghost-container">
 				{ghostData &&
 					ghostTiles.map((ghost) => <GhostTile key={ghost.name} ghost={ghost} />)}

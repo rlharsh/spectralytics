@@ -1,9 +1,10 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 export const ApplicationContext = createContext(null);
 
 const ApplicationProvider = ({ children }) => {
+	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedDifficulty, setSelectedDifficulty] = useState({
 		difficultyName: "Professional",
 		difficultyTimers: [0, 30, 50, 60, 21, 3],
@@ -44,6 +45,49 @@ const ApplicationProvider = ({ children }) => {
 	const [startDecryptedSaveFile, setStartDecryptedSaveFile] = useState(undefined);
 	const [endingDecryptedSaveFile, setEndingDecryptedSaveFile] = useState(undefined);
 	const [showSummaryScreen, setShowSummaryScreen] = useState(false);
+	const [currentBeats, setCurrentBeats] = useState(0);
+
+	const [bpm, setBpm] = useState(0);
+	const [mps, setMps] = useState(0);
+	const [taps, setTaps] = useState([]);
+	const [speedData, setSpeedData] = useState([]);
+	const timeCounter = useRef(0);
+
+	const roundToNearestTenth = (num) => {
+		return Math.round(num * 10) / 10;
+	};
+
+	const addSpeedData = (mps) => {
+		setSpeedData((prevData) => {
+			timeCounter.current += 1;
+			const newData = [...prevData, { time: timeCounter.current, speed: mps }];
+			return newData.slice(-30); // Keep only the last 30 data points
+		});
+	};
+
+	// Update this function to call addSpeedData
+	const updateBpmAndMps = (newBpm) => {
+		const roundedBpm = roundToNearestTenth(newBpm);
+		setBpm(roundedBpm);
+		const calculatedMps = (roundedBpm / 114) * 1.7;
+		const roundedMps = parseFloat(calculatedMps.toFixed(2));
+		setMps(roundedMps);
+		addSpeedData(roundedMps);
+	};
+
+	const handleTap = () => {
+		const now = Date.now();
+		setTaps((prevTaps) => {
+			const newTaps = [...prevTaps, now].slice(-4);
+			if (newTaps.length > 1) {
+				const intervals = newTaps.slice(1).map((tap, i) => tap - newTaps[i]);
+				const averageInterval = intervals.reduce((a, b) => a + b) / intervals.length;
+				const calculatedBpm = 60000 / averageInterval;
+				updateBpmAndMps(calculatedBpm);
+			}
+			return newTaps;
+		});
+	};
 
 	useEffect(() => {
 		if (startDecryptedSaveFile && endingDecryptedSaveFile) {
@@ -142,6 +186,17 @@ const ApplicationProvider = ({ children }) => {
 		setEndingDecryptedSaveFile,
 		showSummaryScreen,
 		setShowSummaryScreen,
+		searchTerm,
+		setSearchTerm,
+		currentBeats,
+		setCurrentBeats,
+		bpm,
+		mps,
+		setBpm,
+		setMps,
+		updateBpmAndMps,
+		handleTap,
+		speedData,
 	};
 
 	return (

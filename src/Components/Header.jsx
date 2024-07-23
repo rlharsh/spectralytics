@@ -108,16 +108,6 @@ const Header = () => {
 				<TbGhost2Filled />
 				<h1>SPECTRALYTICS</h1>
 			</section>
-			{
-				<Button
-					type="button"
-					colorScheme="purple"
-					variant="outline"
-					onClick={handleMenuButtonClick}
-				>
-					<p>Menu</p>
-				</Button>
-			}
 			{menuOpen && (
 				<section className="header__sidebar">
 					<nav className="header__navigation">
@@ -145,7 +135,11 @@ const Header = () => {
 					</nav>
 				</section>
 			)}
-			{user ? <Avatar user={user} /> : <button onClick={() => login()}>Login</button>}
+			{user ? (
+				<Avatar click={handleMenuButtonClick} user={user} />
+			) : (
+				<button onClick={() => login()}>Login</button>
+			)}
 		</header>
 	);
 };
